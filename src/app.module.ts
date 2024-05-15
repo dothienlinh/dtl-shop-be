@@ -9,6 +9,7 @@ import MongooseDelete from 'mongoose-delete';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './interceptors/response.interceptor';
 import { ProductsModule } from './products/products.module';
+import { ShopsModule } from './shops/shops.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProductsModule } from './products/products.module';
     UsersModule,
     AuthModule,
     ProductsModule,
+    ShopsModule,
   ],
   controllers: [AppController],
   providers: [

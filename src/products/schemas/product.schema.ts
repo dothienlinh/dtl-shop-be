@@ -6,10 +6,10 @@ export type ProductDocument = HydratedDocument<Product>;
 @Schema({ timestamps: true })
 export class Product {
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  userId: string;
+  user: string;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  shopId: string;
+  shop: string;
 
   @Prop()
   name: string;
@@ -23,23 +23,32 @@ export class Product {
   @Prop()
   discount: number;
 
-  @Prop()
+  @Prop({
+    type: Number,
+    default: 0,
+  })
   evaluate: number;
 
-  @Prop()
+  @Prop({
+    type: Number,
+    default: 0,
+  })
   sold: number;
 
-  @Prop()
+  @Prop({
+    type: Number,
+    default: 0,
+  })
   ranting: number;
 
   @Prop()
   thumbnail: string;
 
-  @Prop()
+  @Prop({ type: [String] })
   images: string[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  categoryId: string;
+  category: string;
 
   @Prop()
   typeShop: string;

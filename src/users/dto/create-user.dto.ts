@@ -1,4 +1,4 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
@@ -25,15 +25,15 @@ export class CreateUserDto {
   @IsNotEmpty()
   phoneNumber: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  gender: number;
+  gender: string;
 
   @IsDateString()
   @IsNotEmpty()
   birthDate: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
   role: string;
 
