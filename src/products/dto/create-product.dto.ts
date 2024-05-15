@@ -11,7 +11,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   @IsMongoId()
-  shopId: string;
+  shop: string;
 
   @IsNotEmpty()
   @IsString()
@@ -32,20 +32,6 @@ export class CreateProductDto {
   discount: number;
 
   @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
-  evaluate: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
-  sold: number;
-
-  @IsNotEmpty()
-  @IsNumber()
-  ranting: number;
-
-  @IsNotEmpty()
   @IsString()
   thumbnail: string;
 
@@ -56,7 +42,8 @@ export class CreateProductDto {
 
   @IsNotEmpty()
   @IsString()
-  categoryId: string;
+  @IsMongoId()
+  category: string;
 
   @IsNotEmpty()
   @IsString()
