@@ -1,5 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
+import { Gender } from '../dto/create-user.dto';
+import { UserReference } from 'src/interfaces/user.interface';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -17,17 +19,17 @@ export class User {
   @Prop()
   userName: string;
 
-  @Prop()
+  @Prop({ default: null })
   avarta: string;
 
   @Prop()
   phoneNumber: string;
 
-  @Prop()
-  gender: string;
+  @Prop({ type: String, enum: Gender, default: null })
+  gender: Gender;
 
-  @Prop()
-  birthDate: string;
+  @Prop({ type: Date, default: null })
+  birthDate: Date;
 
   @Prop()
   role: string;
@@ -44,11 +46,11 @@ export class User {
   @Prop()
   updatedAt: Date;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  createdBy: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: Object })
+  createdBy: UserReference;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  updatedBy: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: Object })
+  updatedBy: UserReference;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

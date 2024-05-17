@@ -7,7 +7,7 @@ import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
 import { Request, Response } from 'express';
 import { IUser } from 'src/interfaces/user.interface';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserLoginDto } from 'src/users/dto/login-user.dto';
+import { AuthLoginDto } from './dto/auth-login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -18,7 +18,7 @@ export class AuthController {
   @Public()
   @Post('login')
   @ResponseMessage('Login successful')
-  @ApiBody({ type: UserLoginDto })
+  @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ summary: 'Log in' })
   async handleLogin(
     @User() user,

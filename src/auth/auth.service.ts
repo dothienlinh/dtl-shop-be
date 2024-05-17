@@ -15,7 +15,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
+  async validateUser(username: string, pass: string) {
     const user = await this.usersService.findByEmail(username);
 
     if (user) {
@@ -38,6 +38,7 @@ export class AuthService {
       email: user.email,
       sub: user.id,
       name: user.name,
+      role: user.role,
     };
 
     const refreshToken = this.createRefreshToken(payload);
@@ -70,6 +71,7 @@ export class AuthService {
         email: user.email,
         sub: user._id,
         name: user.name,
+        role: user.role,
       };
 
       return { accessToken: this.jwtService.sign(payload) };

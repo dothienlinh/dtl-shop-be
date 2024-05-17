@@ -14,6 +14,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { SearchUsersDto } from './dto/search-user.dto';
+import { User } from 'src/decorators/user.decorator';
+import { IUser } from 'src/interfaces/user.interface';
 
 @ApiTags('users')
 @Controller('users')
@@ -24,8 +26,8 @@ export class UsersController {
   @ApiOperation({
     summary: 'Create a new user',
   })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @User() user: IUser) {
+    return this.usersService.create(createUserDto, user);
   }
 
   @Get()
@@ -62,8 +64,12 @@ export class UsersController {
     summary: 'Update user by id',
   })
   @ApiBody({ type: UpdateUserDto })
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(id, updateUserDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @User() user: IUser,
+  ) {
+    return this.usersService.update(id, updateUserDto, user);
   }
 
   @Delete(':id')
