@@ -10,6 +10,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './interceptors/response.interceptor';
 import { ProductsModule } from './products/products.module';
 import { ShopsModule } from './shops/shops.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ShopsModule } from './shops/shops.module';
     AuthModule,
     ProductsModule,
     ShopsModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [
