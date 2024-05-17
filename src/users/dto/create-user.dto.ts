@@ -1,4 +1,10 @@
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
+
+export enum Gender {
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHERS = 'OTHERS',
+}
 
 export class CreateUserDto {
   @IsString()
@@ -19,25 +25,19 @@ export class CreateUserDto {
 
   @IsString()
   @IsNotEmpty()
-  avarta: string;
-
-  @IsString()
-  @IsNotEmpty()
   phoneNumber: string;
 
-  @IsString()
-  @IsNotEmpty()
-  gender: string;
-
-  @IsDateString()
-  @IsNotEmpty()
-  birthDate: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // @IsEnum(Gender)
+  // @ApiProperty({ enum: Gender })
+  // gender: string;
 
   @IsString()
   @IsNotEmpty()
   role: string;
 
-  @IsString()
-  @IsNotEmpty()
-  address: string;
+  // @IsString()
+  // @IsNotEmpty()
+  // address: string;
 }

@@ -6,6 +6,7 @@ import { User, UserDocument } from './schemas/user.schema';
 import { SoftDeleteModel } from 'mongoose-delete';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SearchUsersDto } from './dto/search-user.dto';
+import { IUser } from 'src/interfaces/user.interface';
 
 @Injectable()
 export class UsersService {
@@ -30,7 +31,7 @@ export class UsersService {
     return await hash(password, salt);
   };
 
-  create = async (createUserDto: CreateUserDto) => {
+  create = async (createUserDto: CreateUserDto, user: IUser) => {
     const isExist = await this.checkUserIsExist(createUserDto.email);
 
     if (isExist) {
@@ -42,6 +43,16 @@ export class UsersService {
     return await this.userModel.create({
       ...createUserDto,
       password: hashPassword,
+      createdBy: {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
+      updatedBy: {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
     });
   };
 
@@ -78,8 +89,18 @@ export class UsersService {
     return await this.userModel.findOne({ email });
   };
 
-  update = async (id: string, updateUserDto: UpdateUserDto) => {
-    return await this.userModel.updateOne({ _id: id }, updateUserDto);
+  update = async (id: string, updateUserDto: UpdateUserDto, user: IUser) => {
+    return await this.userModel.updateOne(
+      { _id: id },
+      {
+        ...updateUserDto,
+        updatedBy: {
+          _id: user.id,
+          name: user.name,
+          role: user.role,
+        },
+      },
+    );
   };
 
   remove = async (id: string) => {
