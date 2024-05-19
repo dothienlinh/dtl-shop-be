@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import { Gender } from '../dto/create-user.dto';
+import mongoose, { HydratedDocument } from 'mongoose';
+import { EGender } from 'src/enums/user';
 import { UserReference } from 'src/interfaces/user.interface';
 
 export type UserDocument = HydratedDocument<User>;
@@ -25,14 +25,17 @@ export class User {
   @Prop()
   phoneNumber: string;
 
-  @Prop({ type: String, enum: Gender, default: null })
-  gender: Gender;
+  @Prop({ type: String, enum: EGender, default: null })
+  gender: EGender;
 
   @Prop({ type: Date, default: null })
   birthDate: Date;
 
-  @Prop()
-  role: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Role',
+  })
+  role: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   address: string;

@@ -7,6 +7,7 @@ import { SoftDeleteModel } from 'mongoose-delete';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SearchUsersDto } from './dto/search-user.dto';
 import { IUser } from 'src/interfaces/user.interface';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {
@@ -40,27 +41,29 @@ export class UsersService {
 
     const hashPassword = await this.hashPassword(createUserDto.password);
 
-    return await this.userModel.create({
-      ...createUserDto,
-      password: hashPassword,
-      createdBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
-      updatedBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
-    });
+    return (
+      await this.userModel.create({
+        ...createUserDto,
+        password: hashPassword,
+        createdBy: {
+          _id: user.id,
+          name: user.name,
+          role: user.role,
+        },
+        updatedBy: {
+          _id: user.id,
+          name: user.name,
+          role: user.role,
+        },
+      })
+    ).populate('role', 'name');
   };
 
   findAll = async (page: number, limit: number) => {
     const skip = (page - 1) * limit;
 
     const [users, totalDocuments] = await Promise.all([
-      this.userModel.find().skip(skip).limit(limit),
+      this.userModel.find().skip(skip).limit(limit).populate('role', 'name'),
       this.userModel.countDocuments(),
     ]);
 
@@ -82,11 +85,11 @@ export class UsersService {
   };
 
   findOne = async (id: string) => {
-    return await this.userModel.findById(id);
+    return await this.userModel.findById(id).populate('role', 'name');
   };
 
   findByEmail = async (email: string) => {
-    return await this.userModel.findOne({ email });
+    return (await this.userModel.findOne({ email })).populate('role', 'name');
   };
 
   update = async (id: string, updateUserDto: UpdateUserDto, user: IUser) => {
@@ -103,8 +106,8 @@ export class UsersService {
     );
   };
 
-  remove = async (id: string) => {
-    return await this.userModel.delete({ _id: id });
+  remove = async (id: string, user: IUser) => {
+    return await this.userModel.delete({ _id: id }, user.id);
   };
 
   findByRefreshToken = async (refreshToken: string) => {
@@ -115,7 +118,7 @@ export class UsersService {
     return this.userModel.updateOne({ _id }, { refreshToken });
   };
 
-  checkRole = async (id: string, role: string) => {
+  checkRole = async (id: string, role: mongoose.Schema.Types.ObjectId) => {
     const user = await this.userModel.findOne({ _id: id, role });
 
     if (user) {

@@ -15,8 +15,17 @@ export class ProductsService {
 
   async create(createProductDto: CreateProductDto, user: IUser) {
     return await this.productModel.create({
-      userId: user.id,
       ...createProductDto,
+      createdBy: {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
+      updatedBy: {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
     });
   }
 
@@ -28,8 +37,18 @@ export class ProductsService {
     return this.productModel.findById(id);
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
-    return await this.productModel.updateOne({ _id: id }, updateProductDto);
+  async update(id: string, updateProductDto: UpdateProductDto, user: IUser) {
+    return await this.productModel.updateOne(
+      { _id: id },
+      {
+        ...updateProductDto,
+        updatedBy: {
+          _id: user.id,
+          name: user.name,
+          role: user.role,
+        },
+      },
+    );
   }
 
   async remove(id: string) {

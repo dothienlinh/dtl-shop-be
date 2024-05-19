@@ -6,11 +6,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import MongooseDelete from 'mongoose-delete';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { TransformInterceptor } from './interceptors/response.interceptor';
 import { ProductsModule } from './products/products.module';
 import { ShopsModule } from './shops/shops.module';
 import { FilesModule } from './files/files.module';
+import { RolesModule } from './roles/roles.module';
+import { PermissionsModule } from './permissions/permissions.module';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -37,6 +40,8 @@ import { FilesModule } from './files/files.module';
     ProductsModule,
     ShopsModule,
     FilesModule,
+    RolesModule,
+    PermissionsModule,
   ],
   controllers: [AppController],
   providers: [
@@ -44,6 +49,10 @@ import { FilesModule } from './files/files.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
     },
   ],
 })

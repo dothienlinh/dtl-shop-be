@@ -76,7 +76,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Delete user by id',
   })
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(id);
+  remove(@Param('id') id: string, @User() user: IUser) {
+    return this.usersService.remove(id, user);
   }
 }

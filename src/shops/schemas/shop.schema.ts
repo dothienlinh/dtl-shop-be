@@ -1,13 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { Product } from 'src/products/schemas/product.schema';
+import { UserReference } from 'src/interfaces/user.interface';
 
 export type ShopDocument = HydratedDocument<Shop>;
 
 @Schema({ timestamps: true })
 export class Shop {
-  @Prop()
-  user: string;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  })
+  user: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   name: string;
@@ -17,9 +20,10 @@ export class Shop {
 
   @Prop({
     type: [mongoose.Schema.Types.ObjectId],
-    ref: Product.name,
+    ref: 'Product',
+    default: null,
   })
-  products: Product[];
+  products: mongoose.Schema.Types.ObjectId[];
 
   @Prop({ type: Number, default: 0 })
   following: number;
@@ -39,11 +43,11 @@ export class Shop {
   @Prop()
   updatedAt: Date;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  createdBy: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: Object })
+  createdBy: UserReference;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  updatedBy: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: Object })
+  updatedBy: UserReference;
 }
 
 export const ShopSchema = SchemaFactory.createForClass(Shop);

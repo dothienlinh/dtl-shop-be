@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import ms from 'ms';
 import { IPayload } from 'src/interfaces/payload.interface';
+import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private rolesService: RolesService,
   ) {}
 
   async validateUser(username: string, pass: string) {
@@ -38,7 +40,7 @@ export class AuthService {
       email: user.email,
       sub: user.id,
       name: user.name,
-      role: user.role,
+      role: user.role._id,
     };
 
     const refreshToken = this.createRefreshToken(payload);
@@ -48,10 +50,16 @@ export class AuthService {
       maxAge: ms(this.configService.get<string>('JWT_REFRESH_EXPIRES')),
     });
 
-    await this.usersService.updateRefreshToken(refreshToken, user.id);
+    const [role] = await Promise.all([
+      this.rolesService.findOne(`${user.role._id}`),
+      this.usersService.updateRefreshToken(refreshToken, user.id),
+    ]);
 
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign({
+        ...payload,
+        permissions: role.permissions,
+      }),
     };
   }
 
@@ -67,6 +75,9 @@ export class AuthService {
         throw new BadRequestException('User not found');
       }
 
+      const permissions = (await this.rolesService.findOne(`${user.role}`))
+        .permissions;
+
       const payload: IPayload = {
         email: user.email,
         sub: user._id,
@@ -74,7 +85,7 @@ export class AuthService {
         role: user.role,
       };
 
-      return { accessToken: this.jwtService.sign(payload) };
+      return { accessToken: this.jwtService.sign({ ...payload, permissions }) };
     } catch (error) {
       throw new BadRequestException('Invalid refresh token');
     }

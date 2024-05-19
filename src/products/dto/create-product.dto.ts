@@ -6,12 +6,12 @@ import {
   IsString,
   Min,
 } from 'class-validator';
+import mongoose from 'mongoose';
 
 export class CreateProductDto {
   @IsNotEmpty()
-  @IsString()
   @IsMongoId()
-  shop: string;
+  shop: mongoose.Schema.Types.ObjectId;
 
   @IsNotEmpty()
   @IsString()
@@ -41,11 +41,6 @@ export class CreateProductDto {
   images: string[];
 
   @IsNotEmpty()
-  @IsString()
   @IsMongoId()
-  category: string;
-
-  @IsNotEmpty()
-  @IsString()
-  typeShop: string;
+  category: mongoose.Schema.Types.ObjectId;
 }

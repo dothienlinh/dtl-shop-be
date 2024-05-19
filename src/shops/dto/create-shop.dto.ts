@@ -1,5 +1,4 @@
-import { IsArray, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
-import mongoose from 'mongoose';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateShopDto {
   @IsString()
@@ -10,10 +9,10 @@ export class CreateShopDto {
   @IsNotEmpty()
   status: string;
 
-  @IsArray()
-  @IsNotEmpty()
-  @IsMongoId({ each: true })
-  products: mongoose.Schema.Types.ObjectId[];
+  // @IsArray()
+  // @IsNotEmpty()
+  // @IsMongoId({ each: true })
+  // products: mongoose.Schema.Types.ObjectId[];
 
   @IsString()
   @IsNotEmpty()
