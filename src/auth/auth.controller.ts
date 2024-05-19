@@ -1,4 +1,12 @@
-import { Controller, Post, UseGuards, Get, Res, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Get,
+  Res,
+  Req,
+  Body,
+} from '@nestjs/common';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from 'src/decorators/public.decorators';
@@ -8,6 +16,7 @@ import { Request, Response } from 'express';
 import { IUser } from 'src/interfaces/user.interface';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthLoginDto } from './dto/auth-login.dto';
+import { AuthRegisterDto } from './dto/auth-register.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -39,5 +48,13 @@ export class AuthController {
   @ApiOperation({ summary: 'Get accout' })
   getAccount(@User() user: IUser) {
     return user;
+  }
+
+  @Post('/register')
+  @ApiOperation({ summary: 'Register' })
+  @ApiBody({ type: AuthRegisterDto })
+  @ResponseMessage('Successfully registered')
+  async register(@Body() authRegisterDto: AuthRegisterDto) {
+    return this.authService.register(authRegisterDto);
   }
 }

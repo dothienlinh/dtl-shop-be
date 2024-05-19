@@ -7,6 +7,7 @@ import { Response } from 'express';
 import ms from 'ms';
 import { IPayload } from 'src/interfaces/payload.interface';
 import { RolesService } from 'src/roles/roles.service';
+import { AuthRegisterDto } from './dto/auth-register.dto';
 
 @Injectable()
 export class AuthService {
@@ -96,5 +97,9 @@ export class AuthService {
       secret: this.configService.get<string>('JWT_REFRESH_TOKEN'),
       privateKey: this.configService.get<string>('JWT_REFRESH_EXPIRES'),
     });
+  };
+
+  register = async (authRegisterDto: AuthRegisterDto) => {
+    return this.usersService.register(authRegisterDto);
   };
 }

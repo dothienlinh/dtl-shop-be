@@ -8,11 +8,15 @@ import { compare, genSalt, hash } from 'bcrypt';
 import { SearchUsersDto } from './dto/search-user.dto';
 import { IUser } from 'src/interfaces/user.interface';
 import mongoose from 'mongoose';
+import { AuthRegisterDto } from 'src/auth/dto/auth-register.dto';
+import { RolesService } from 'src/roles/roles.service';
+import { ERole } from 'src/enums/role';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>,
+    private rolesService: RolesService,
   ) {}
 
   checkUserIsExist = async (email: string) => {
@@ -126,5 +130,30 @@ export class UsersService {
     }
 
     return false;
+  };
+
+  register = async (authRegisterDto: AuthRegisterDto) => {
+    const { password, username } = authRegisterDto;
+
+    const isUser = await this.checkUserIsExist(username);
+
+    if (isUser) {
+      throw new BadRequestException('User is already exist');
+    }
+
+    const [defaultRole, hashPassword] = await Promise.all([
+      this.rolesService.findByName(ERole.USER),
+      this.hashPassword(password),
+    ]);
+
+    return (
+      await this.userModel.create({
+        email: username,
+        password: hashPassword,
+        name: `name ${Date.now()}`,
+        userName: `name name ${Date.now()}`,
+        role: defaultRole._id,
+      })
+    ).populate('role', 'name');
   };
 }

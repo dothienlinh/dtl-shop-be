@@ -73,4 +73,8 @@ export class RolesService {
 
     return null;
   };
+
+  findByName = async (nameRole: string) => {
+    return await this.rolesModel.findOne({ name: nameRole });
+  };
 }
