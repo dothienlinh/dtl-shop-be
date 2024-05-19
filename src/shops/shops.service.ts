@@ -16,6 +16,16 @@ export class ShopsService {
     return this.shopModel.create({
       ...createShopDto,
       user: user.id,
+      createdBy: {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
+      updatedBy: {
+        _id: user.id,
+        name: user.name,
+        role: user.role,
+      },
     });
   }
 
@@ -27,8 +37,18 @@ export class ShopsService {
     return this.shopModel.findById(id);
   }
 
-  update(id: string, updateShopDto: UpdateShopDto) {
-    return this.shopModel.updateOne({ _id: id }, updateShopDto);
+  update(id: string, updateShopDto: UpdateShopDto, user: IUser) {
+    return this.shopModel.updateOne(
+      { _id: id },
+      {
+        ...updateShopDto,
+        updatedBy: {
+          _id: user.id,
+          name: user.name,
+          role: user.role,
+        },
+      },
+    );
   }
 
   remove(id: string) {

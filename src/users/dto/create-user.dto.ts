@@ -1,10 +1,5 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-
-export enum Gender {
-  MALE = 'MALE',
-  FEMALE = 'FEMALE',
-  OTHERS = 'OTHERS',
-}
+import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import mongoose from 'mongoose';
 
 export class CreateUserDto {
   @IsString()
@@ -33,9 +28,9 @@ export class CreateUserDto {
   // @ApiProperty({ enum: Gender })
   // gender: string;
 
-  @IsString()
   @IsNotEmpty()
-  role: string;
+  @IsMongoId()
+  role: mongoose.Schema.Types.ObjectId;
 
   // @IsString()
   // @IsNotEmpty()

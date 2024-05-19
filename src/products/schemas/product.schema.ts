@@ -1,15 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { UserReference } from 'src/interfaces/user.interface';
 
 export type ProductDocument = HydratedDocument<Product>;
 
 @Schema({ timestamps: true })
 export class Product {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  user: string;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  shop: string;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Shop' })
+  shop: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   name: string;
@@ -24,19 +22,16 @@ export class Product {
   discount: number;
 
   @Prop({
-    type: Number,
     default: 0,
   })
   evaluate: number;
 
   @Prop({
-    type: Number,
     default: 0,
   })
   sold: number;
 
   @Prop({
-    type: Number,
     default: 0,
   })
   ranting: number;
@@ -48,10 +43,7 @@ export class Product {
   images: string[];
 
   @Prop({ type: mongoose.Schema.Types.ObjectId })
-  category: string;
-
-  @Prop()
-  typeShop: string;
+  category: mongoose.Schema.Types.ObjectId;
 
   @Prop()
   createdAt: Date;
@@ -59,11 +51,11 @@ export class Product {
   @Prop()
   updatedAt: Date;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  createdBy: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: Object })
+  createdBy: UserReference;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  updatedBy: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: Object })
+  updatedBy: UserReference;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

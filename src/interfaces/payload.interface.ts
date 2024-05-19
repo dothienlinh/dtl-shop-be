@@ -1,10 +1,19 @@
-import { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
 export interface IPayload {
   email: string;
-  sub: string | Types.ObjectId;
+  sub: string | mongoose.Types.ObjectId;
   name: string;
-  role: string;
+  role: string | mongoose.Schema.Types.ObjectId;
+  permissions?: Permission[];
   iat?: number;
   exp?: number;
+}
+
+export interface Permission {
+  _id: string | mongoose.Schema.Types.ObjectId;
+  name: string;
+  apiPath: string;
+  method: string;
+  module: string;
 }

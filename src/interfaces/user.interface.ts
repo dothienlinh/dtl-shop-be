@@ -4,11 +4,17 @@ export interface IUser {
   id: string;
   email: string;
   name: string;
-  role: string;
+  role: {
+    _id: mongoose.Schema.Types.ObjectId;
+    name: string;
+  };
 }
 
 export interface UserReference {
   _id: mongoose.Schema.Types.ObjectId;
   name: string;
-  role: string;
+  role: {
+    _id: mongoose.Schema.Types.ObjectId;
+    name: string;
+  };
 }

@@ -47,8 +47,12 @@ export class ShopsController {
   @ApiOperation({
     summary: 'Update shop by id',
   })
-  update(@Param('id') id: string, @Body() updateShopDto: UpdateShopDto) {
-    return this.shopsService.update(id, updateShopDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateShopDto: UpdateShopDto,
+    @User() user: IUser,
+  ) {
+    return this.shopsService.update(id, updateShopDto, user);
   }
 
   @Delete(':id')
