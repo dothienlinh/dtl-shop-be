@@ -53,9 +53,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         permission.method === targetMethod && permission.apiPath === targetPath,
     );
 
-    if (!isExist) {
-      throw new ForbiddenException('You do not have access.');
-    }
+    // if (!isExist) {
+    //   throw new ForbiddenException('You do not have access.');
+    // }
 
     return user;
   }
