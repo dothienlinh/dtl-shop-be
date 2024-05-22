@@ -50,6 +50,7 @@ export class AuthController {
     return user;
   }
 
+  @Public()
   @Post('/register')
   @ApiOperation({ summary: 'Register' })
   @ApiBody({ type: AuthRegisterDto })

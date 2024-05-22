@@ -67,7 +67,7 @@ export class AuthService {
   refreshToken = async (refreshToken: string) => {
     try {
       await this.jwtService.verify(refreshToken, {
-        secret: this.configService.get<string>('JWT_REFRESH_TOKEN'),
+        secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
       });
 
       const user = await this.usersService.findByRefreshToken(refreshToken);
@@ -94,7 +94,7 @@ export class AuthService {
 
   createRefreshToken = (payload: IPayload) => {
     return this.jwtService.sign(payload, {
-      secret: this.configService.get<string>('JWT_REFRESH_TOKEN'),
+      secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
       privateKey: this.configService.get<string>('JWT_REFRESH_EXPIRES'),
     });
   };

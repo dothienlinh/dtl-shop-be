@@ -14,6 +14,7 @@ import { FilesModule } from './files/files.module';
 import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { SubscribersModule } from './subscribers/subscribers.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
     FilesModule,
     RolesModule,
     PermissionsModule,
+    SubscribersModule,
   ],
   controllers: [AppController],
   providers: [
