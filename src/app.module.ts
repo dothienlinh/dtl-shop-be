@@ -15,6 +15,7 @@ import { RolesModule } from './roles/roles.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { SubscribersModule } from './subscribers/subscribers.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { SubscribersModule } from './subscribers/subscribers.module';
     RolesModule,
     PermissionsModule,
     SubscribersModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [
