@@ -6,8 +6,9 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import ms from 'ms';
 import { IPayload } from 'src/interfaces/payload.interface';
-import { RolesService } from 'src/roles/roles.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
+import { MailService } from 'src/mail/mail.service';
+import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
-    private rolesService: RolesService,
+    private mailService: MailService,
   ) {}
 
   async validateUser(username: string, pass: string) {
@@ -98,5 +99,37 @@ export class AuthService {
 
   register = async (authRegisterDto: AuthRegisterDto) => {
     return this.usersService.register(authRegisterDto);
+  };
+
+  sendOtpCode = async (response: Response, email: string) => {
+    const user = await this.usersService.findByEmail(email);
+
+    if (!user) {
+      throw new BadRequestException('Email invalid');
+    }
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000);
+    response.cookie('otpCode', otpCode, {
+      httpOnly: true,
+      maxAge: ms(this.configService.get<string>('OTP_CODE_EXPIRES')),
+    });
+
+    await this.mailService.sendOtpCode(otpCode, user.email);
+  };
+
+  verifyOtpCode = async (otpCodeByCookies: number, otpCode: number) => {
+    if (otpCodeByCookies !== otpCode) {
+      throw new BadRequestException('OTP CODE invalid');
+    }
+  };
+
+  changePassword = async (
+    otpCodeByCookies: number,
+    changePasswordDto: ChangePasswordDto,
+  ) => {
+    return this.usersService.changePassword(
+      otpCodeByCookies,
+      changePasswordDto,
+    );
   };
 }

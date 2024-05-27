@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 import { AuthRegisterDto } from 'src/auth/dto/auth-register.dto';
 import { RolesService } from 'src/roles/roles.service';
 import { ERole } from 'src/enums/role';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -157,5 +158,19 @@ export class UsersService {
         role: defaultRole._id,
       })
     ).populate('role', 'name');
+  };
+
+  changePassword = async (
+    otpCodeByCookies: number,
+    changePasswordDto: ChangePasswordDto,
+  ) => {
+    if (otpCodeByCookies !== changePasswordDto.otpCode) {
+      throw new BadRequestException('Cannot change password, please try again');
+    }
+
+    return await this.userModel.updateOne(
+      { email: changePasswordDto.email },
+      { password: await this.hashPassword(changePasswordDto.password) },
+    );
   };
 }
