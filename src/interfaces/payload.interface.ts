@@ -4,7 +4,12 @@ export interface IPayload {
   email: string;
   sub: string | mongoose.Types.ObjectId;
   name: string;
-  role: string | mongoose.Schema.Types.ObjectId;
+  role:
+    | {
+        _id: string | mongoose.Schema.Types.ObjectId;
+        name: string;
+      }
+    | mongoose.Schema.Types.ObjectId;
   permissions?: Permission[];
   iat?: number;
   exp?: number;

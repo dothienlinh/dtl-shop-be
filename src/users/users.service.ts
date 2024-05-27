@@ -115,7 +115,9 @@ export class UsersService {
   };
 
   findByRefreshToken = async (refreshToken: string) => {
-    return await this.userModel.findOne({ refreshToken });
+    return await this.userModel
+      .findOne({ refreshToken })
+      .populate('role', 'name');
   };
 
   updateRefreshToken = async (refreshToken: string, _id: string) => {

@@ -16,6 +16,7 @@ import { PermissionsModule } from './permissions/permissions.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { SubscribersModule } from './subscribers/subscribers.module';
 import { MailModule } from './mail/mail.module';
+import { RolesGuard } from './guards/roles.guard';
 
 @Module({
   imports: [
@@ -57,6 +58,10 @@ import { MailModule } from './mail/mail.module';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

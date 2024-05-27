@@ -1,14 +1,11 @@
 import {
   ExecutionContext,
-  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
 import { IS_PUBLIC_KEY } from 'src/decorators/public.decorators';
-import { Permission } from 'src/permissions/schemas/permission.schema';
 import { RolesService } from 'src/roles/roles.service';
 
 @Injectable()
@@ -31,7 +28,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     return super.canActivate(context);
   }
 
-  handleRequest(err, user, info, context: ExecutionContext) {
+  handleRequest(err, user, info) {
     if (err || !user) {
       if (info && info.name === 'TokenExpiredError') {
         throw new UnauthorizedException('Token has expired');
@@ -42,20 +39,6 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       }
       throw err || new UnauthorizedException();
     }
-
-    const req: Request = context.switchToHttp().getRequest();
-    const targetMethod = req.method;
-    const targetPath: string = req.route?.path;
-    const permissions: Permission[] = user.permissions ?? [];
-
-    const isExist = permissions.find(
-      (permission) =>
-        permission.method === targetMethod && permission.apiPath === targetPath,
-    );
-
-    // if (!isExist) {
-    //   throw new ForbiddenException('You do not have access.');
-    // }
 
     return user;
   }

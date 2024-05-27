@@ -41,32 +41,28 @@ export class AuthService {
       email: user.email,
       sub: user.id,
       name: user.name,
-      role: user.role._id,
+      role: user.role,
     };
 
-    const refreshToken = this.createRefreshToken(payload);
+    const refreshToken = await this.createRefreshToken(payload);
 
     response.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       maxAge: ms(this.configService.get<string>('JWT_REFRESH_EXPIRES')),
     });
 
-    const [role] = await Promise.all([
-      this.rolesService.findOne(`${user.role._id}`),
-      this.usersService.updateRefreshToken(refreshToken, user.id),
-    ]);
+    await this.usersService.updateRefreshToken(refreshToken, user.id);
 
     return {
-      accessToken: this.jwtService.sign({
+      accessToken: await this.jwtService.signAsync({
         ...payload,
-        permissions: role.permissions,
       }),
     };
   }
 
   refreshToken = async (refreshToken: string) => {
     try {
-      await this.jwtService.verify(refreshToken, {
+      await this.jwtService.verifyAsync(refreshToken, {
         secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
       });
 
@@ -76,9 +72,6 @@ export class AuthService {
         throw new BadRequestException('User not found');
       }
 
-      const permissions = (await this.rolesService.findOne(`${user.role}`))
-        .permissions;
-
       const payload: IPayload = {
         email: user.email,
         sub: user._id,
@@ -86,16 +79,20 @@ export class AuthService {
         role: user.role,
       };
 
-      return { accessToken: this.jwtService.sign({ ...payload, permissions }) };
+      return {
+        accessToken: await this.jwtService.signAsync({
+          ...payload,
+        }),
+      };
     } catch (error) {
       throw new BadRequestException('Invalid refresh token');
     }
   };
 
-  createRefreshToken = (payload: IPayload) => {
-    return this.jwtService.sign(payload, {
+  createRefreshToken = async (payload: IPayload) => {
+    return await this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
-      privateKey: this.configService.get<string>('JWT_REFRESH_EXPIRES'),
+      expiresIn: this.configService.get<string>('JWT_REFRESH_EXPIRES'),
     });
   };
 
