@@ -21,4 +21,19 @@ export class MailService {
       .then(() => {})
       .catch(() => {});
   }
+
+  sendOtpCode = async (otpCode: number, email: string) => {
+    await this.mailerService
+      .sendMail({
+        to: email,
+        from: '"DTL Shop" <dtlshop2004@gmail.com>',
+        subject: 'Testing Nest MailerModule ✔',
+        template: 'forgotPassword',
+        context: {
+          otpCode,
+        },
+      })
+      .then(() => {})
+      .catch(() => {});
+  };
 }
