@@ -7,9 +7,7 @@ import { Response } from 'express';
 import ms from 'ms';
 import { IPayload } from 'src/interfaces/payload.interface';
 import { AuthRegisterDto } from './dto/auth-register.dto';
-import { MailService } from 'src/mail/mail.service';
 import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
-import { OtpsService } from 'src/otps/otps.service';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +15,6 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
-    private mailService: MailService,
-    private otpsService: OtpsService,
   ) {}
 
   async validateUser(username: string, pass: string) {

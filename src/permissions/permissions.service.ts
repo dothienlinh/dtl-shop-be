@@ -14,18 +14,16 @@ export class PermissionsService {
   ) {}
 
   async create(createPermissionDto: CreatePermissionDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.permissionModel.create({
       ...createPermissionDto,
-      createdBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
-      updatedBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
     });
   }
 
@@ -37,20 +35,18 @@ export class PermissionsService {
     return await this.permissionModel.findById(id);
   }
 
-  async update(
-    id: string,
-    updatePermissionDto: UpdatePermissionDto,
-    user: IUser,
-  ) {
+  async update(id: string, updatePermissionDto: UpdatePermissionDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.permissionModel.updateOne(
       { _id: id },
       {
         ...updatePermissionDto,
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        updatedBy: userMetadata,
       },
     );
   }

@@ -1,8 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import {
-  MulterModuleOptions,
-  MulterOptionsFactory,
-} from '@nestjs/platform-express';
+import { MulterModuleOptions, MulterOptionsFactory } from '@nestjs/platform-express';
 import { mkdir } from 'fs';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
@@ -51,12 +48,7 @@ export class MulterConfigService implements MulterOptionsFactory {
         if (allowedTypes.includes(file.mimetype)) {
           cb(null, true);
         } else {
-          cb(
-            new BadRequestException(
-              'Invalid file type. Only JPEG, PNG, and GIF files are allowed.',
-            ),
-            false,
-          );
+          cb(new BadRequestException('Invalid file type. Only JPEG, PNG, and GIF files are allowed.'), false);
         }
       },
       limits: {

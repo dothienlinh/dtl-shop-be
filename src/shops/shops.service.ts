@@ -8,24 +8,20 @@ import { IUser } from 'src/interfaces/user.interface';
 
 @Injectable()
 export class ShopsService {
-  constructor(
-    @InjectModel(Shop.name) private shopModel: SoftDeleteModel<ShopDocument>,
-  ) {}
+  constructor(@InjectModel(Shop.name) private shopModel: SoftDeleteModel<ShopDocument>) {}
 
   create(createShopDto: CreateShopDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return this.shopModel.create({
       ...createShopDto,
       user: user.id,
-      createdBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
-      updatedBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
     });
   }
 
@@ -38,15 +34,17 @@ export class ShopsService {
   }
 
   update(id: string, updateShopDto: UpdateShopDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return this.shopModel.updateOne(
       { _id: id },
       {
         ...updateShopDto,
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        updatedBy: userMetadata,
       },
     );
   }

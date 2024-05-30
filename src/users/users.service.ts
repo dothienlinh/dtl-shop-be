@@ -104,15 +104,17 @@ export class UsersService {
   };
 
   update = async (id: string, updateUserDto: UpdateUserDto, user: IUser) => {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.userModel.updateOne(
       { _id: id },
       {
         ...updateUserDto,
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        updatedBy: userMetadata,
       },
     );
   };

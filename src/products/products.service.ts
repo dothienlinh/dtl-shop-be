@@ -14,18 +14,16 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.productModel.create({
       ...createProductDto,
-      createdBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
-      updatedBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
     });
   }
 
@@ -38,15 +36,17 @@ export class ProductsService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.productModel.updateOne(
       { _id: id },
       {
         ...updateProductDto,
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        updatedBy: userMetadata,
       },
     );
   }
