@@ -9,6 +9,8 @@ import { IPayload } from 'src/interfaces/payload.interface';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { MailService } from 'src/mail/mail.service';
 import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
+import { OtpsService } from 'src/otps/otps.service';
+import { AuthOtpCodeDto } from './dto/auth-otp-code.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +19,7 @@ export class AuthService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private mailService: MailService,
+    private otpsService: OtpsService,
   ) {}
 
   async validateUser(username: string, pass: string) {
@@ -24,10 +27,7 @@ export class AuthService {
 
     if (user) {
       const { password } = user;
-      const isValidPassword = await this.usersService.isValidPassword(
-        pass,
-        password,
-      );
+      const isValidPassword = await this.usersService.isValidPassword(pass, password);
 
       if (isValidPassword) {
         return user;
@@ -98,38 +98,44 @@ export class AuthService {
   };
 
   register = async (authRegisterDto: AuthRegisterDto) => {
-    return this.usersService.register(authRegisterDto);
+    const [user] = await Promise.all([
+      this.usersService.register(authRegisterDto),
+      this.otpsService.create({ email: authRegisterDto.username }),
+    ]);
+
+    return user;
   };
 
-  sendOtpCode = async (response: Response, email: string) => {
-    const user = await this.usersService.findByEmail(email);
+  sendOtpCode = async (email: string) => {
+    const [user, otp] = await Promise.all([this.usersService.findByEmail(email), this.otpsService.findByEmail(email)]);
 
     if (!user) {
       throw new BadRequestException('Email invalid');
     }
 
-    const otpCode = Math.floor(100000 + Math.random() * 900000);
-    response.cookie('otpCode', otpCode, {
-      httpOnly: true,
-      maxAge: ms(this.configService.get<string>('OTP_CODE_EXPIRES')),
-    });
+    if (!otp) {
+      this.otpsService.create({ email });
+    }
 
-    await this.mailService.sendOtpCode(otpCode, user.email);
+    const otpCode = Math.floor(100000 + Math.random() * 900000);
+    const expiry = new Date(Date.now() + ms(this.configService.get<string>('OTP_CODE_EXPIRES')) / 1000);
+
+    await this.otpsService.update(email, { otp: `${otpCode}`, expiry });
+    return await this.mailService.sendOtpCode(otpCode, user.email);
   };
 
-  verifyOtpCode = async (otpCodeByCookies: number, otpCode: number) => {
-    if (otpCodeByCookies !== otpCode) {
+  verifyOtpCode = async (authOtpCodeDto: AuthOtpCodeDto) => {
+    const { email } = authOtpCodeDto;
+    const otp = await this.otpsService.findByEmail(email);
+
+    if (otp.expiry < new Date(Date.now())) {
+      throw new BadRequestException('OTP CODE expired');
+    } else if (+otp.otp !== +authOtpCodeDto.otpCode) {
       throw new BadRequestException('OTP CODE invalid');
     }
   };
 
-  changePassword = async (
-    otpCodeByCookies: number,
-    changePasswordDto: ChangePasswordDto,
-  ) => {
-    return this.usersService.changePassword(
-      otpCodeByCookies,
-      changePasswordDto,
-    );
+  changePassword = async (changePasswordDto: ChangePasswordDto) => {
+    return this.usersService.changePassword(changePasswordDto);
   };
 }

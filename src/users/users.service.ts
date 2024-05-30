@@ -12,12 +12,14 @@ import { AuthRegisterDto } from 'src/auth/dto/auth-register.dto';
 import { RolesService } from 'src/roles/roles.service';
 import { ERole } from 'src/enums/role';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { OtpsService } from 'src/otps/otps.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>,
     private rolesService: RolesService,
+    private otpsService: OtpsService,
   ) {}
 
   checkUserIsExist = async (email: string) => {
@@ -28,13 +30,32 @@ export class UsersService {
     return false;
   };
 
-  isValidPassword = async (password: string, hashPassword: string) =>
-    await compare(password, hashPassword);
+  isValidPassword = async (password: string, hashPassword: string) => await compare(password, hashPassword);
 
   hashPassword = async (password: string) => {
     const salt = await genSalt();
 
     return await hash(password, salt);
+  };
+
+  createUser = async (createUserDto: CreateUserDto, user: IUser) => {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+    const password = await this.hashPassword(createUserDto.password);
+
+    const createdUser = (
+      await this.userModel.create({
+        ...createUserDto,
+        password,
+        createdBy: userMetadata,
+        updatedBy: userMetadata,
+      })
+    ).populate('role', 'name');
+
+    return createdUser;
   };
 
   create = async (createUserDto: CreateUserDto, user: IUser) => {
@@ -44,24 +65,12 @@ export class UsersService {
       throw new BadRequestException('User is already exist');
     }
 
-    const hashPassword = await this.hashPassword(createUserDto.password);
+    const [createdUser] = await Promise.all([
+      this.createUser(createUserDto, user),
+      this.otpsService.create({ email: createUserDto.email }),
+    ]);
 
-    return (
-      await this.userModel.create({
-        ...createUserDto,
-        password: hashPassword,
-        createdBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
-      })
-    ).populate('role', 'name');
+    return createdUser;
   };
 
   findAll = async (page: number, limit: number) => {
@@ -116,9 +125,7 @@ export class UsersService {
   };
 
   findByRefreshToken = async (refreshToken: string) => {
-    return await this.userModel
-      .findOne({ refreshToken })
-      .populate('role', 'name');
+    return await this.userModel.findOne({ refreshToken }).populate('role', 'name');
   };
 
   updateRefreshToken = async (refreshToken: string, _id: string) => {
@@ -160,17 +167,14 @@ export class UsersService {
     ).populate('role', 'name');
   };
 
-  changePassword = async (
-    otpCodeByCookies: number,
-    changePasswordDto: ChangePasswordDto,
-  ) => {
-    if (otpCodeByCookies !== changePasswordDto.otpCode) {
-      throw new BadRequestException('Cannot change password, please try again');
-    }
-
+  changePassword = async (changePasswordDto: ChangePasswordDto) => {
     return await this.userModel.updateOne(
       { email: changePasswordDto.email },
       { password: await this.hashPassword(changePasswordDto.password) },
     );
+  };
+
+  verifyEmail = async (email: string) => {
+    return await this.userModel.updateOne({ email }, { isVerify: true });
   };
 }

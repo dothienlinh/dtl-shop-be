@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Post,
-  UseGuards,
-  Get,
-  Res,
-  Req,
-  Body,
-} from '@nestjs/common';
+import { Controller, Post, UseGuards, Get, Res, Req, Body } from '@nestjs/common';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from 'src/decorators/public.decorators';
@@ -34,10 +26,7 @@ export class AuthController {
   @ResponseMessage('Login successful')
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ summary: 'Log in' })
-  async handleLogin(
-    @User() user,
-    @Res({ passthrough: true }) response: Response,
-  ) {
+  async handleLogin(@User() user, @Res({ passthrough: true }) response: Response) {
     return await this.authService.login(user, response);
   }
   @Public()
@@ -66,15 +55,13 @@ export class AuthController {
   }
 
   @Public()
-  @Post('otp-code')
+  @Post('request-otp')
   @ApiOperation({ summary: 'Forgot password' })
   @ApiBody({ type: AuthForgotPasswordDto })
   @ResponseMessage('Successfully registered')
-  async forgotPassword(
-    @Res({ passthrough: true }) response: Response,
-    @Body() authForgotPasswordDto: AuthForgotPasswordDto,
-  ) {
-    return this.authService.sendOtpCode(response, authForgotPasswordDto.email);
+  async requestOtp(@Body() authForgotPasswordDto: AuthForgotPasswordDto) {
+    const { email } = authForgotPasswordDto;
+    return this.authService.sendOtpCode(email);
   }
 
   @Public()
@@ -82,13 +69,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Verify otp code' })
   @ApiBody({ type: AuthOtpCodeDto })
   @ResponseMessage('Successfully registered')
-  async verifyOtpCode(
-    @Req() request: Request,
-    @Body() authOtpCodeDto: AuthOtpCodeDto,
-  ) {
-    const otpCode = request.cookies.otpCode;
-
-    return this.authService.verifyOtpCode(+otpCode, authOtpCodeDto.otpCode);
+  async verifyOtpCode(@Body() authOtpCodeDto: AuthOtpCodeDto) {
+    return this.authService.verifyOtpCode(authOtpCodeDto);
   }
 
   @Public()
@@ -96,12 +78,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Reset password' })
   @ApiBody({ type: ChangePasswordDto })
   @ResponseMessage('Successfully registered')
-  async resetPassword(
-    @Req() request: Request,
-    @Body() changePasswordDto: ChangePasswordDto,
-  ) {
-    const otpCode = request.cookies.otpCode;
-
-    return this.authService.changePassword(+otpCode, changePasswordDto);
+  async resetPassword(@Body() changePasswordDto: ChangePasswordDto) {
+    return this.authService.changePassword(changePasswordDto);
   }
 }
