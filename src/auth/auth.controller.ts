@@ -11,8 +11,6 @@ import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { Roles } from 'src/decorators/roles.decorator';
 import { ERole } from 'src/enums/role';
-import { AuthForgotPasswordDto } from './dto/auth-forgot-password.dto';
-import { AuthOtpCodeDto } from './dto/auth-otp-code.dto';
 import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
 
 @ApiTags('auth')
@@ -52,25 +50,6 @@ export class AuthController {
   @ResponseMessage('Successfully registered')
   async register(@Body() authRegisterDto: AuthRegisterDto) {
     return this.authService.register(authRegisterDto);
-  }
-
-  @Public()
-  @Post('request-otp')
-  @ApiOperation({ summary: 'Forgot password' })
-  @ApiBody({ type: AuthForgotPasswordDto })
-  @ResponseMessage('Successfully registered')
-  async requestOtp(@Body() authForgotPasswordDto: AuthForgotPasswordDto) {
-    const { email } = authForgotPasswordDto;
-    return this.authService.sendOtpCode(email);
-  }
-
-  @Public()
-  @Post('verify-otp-code')
-  @ApiOperation({ summary: 'Verify otp code' })
-  @ApiBody({ type: AuthOtpCodeDto })
-  @ResponseMessage('Successfully registered')
-  async verifyOtpCode(@Body() authOtpCodeDto: AuthOtpCodeDto) {
-    return this.authService.verifyOtpCode(authOtpCodeDto);
   }
 
   @Public()

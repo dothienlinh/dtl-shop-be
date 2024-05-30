@@ -6,11 +6,13 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/users/users.module';
+import { OtpsModule } from 'src/otps/otps.module';
 
 @Module({
   imports: [
     JwtModule,
     UsersModule,
+    OtpsModule,
     MailerModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         transport: {

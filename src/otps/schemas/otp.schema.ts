@@ -9,10 +9,10 @@ export class Otp {
   email: string;
 
   @Prop({ default: null })
-  otp: string;
+  otp: number;
 
-  @Prop({ default: null })
-  expiry: Date;
+  @Prop({ default: Date.now(), type: Date, expires: 60 * 5 })
+  createdAt: Date;
 }
 
 export const OtpSchema = SchemaFactory.createForClass(Otp);
