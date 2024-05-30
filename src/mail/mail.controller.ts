@@ -4,21 +4,20 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
 import { VerifyEmail } from './dto/verify-mail.dto';
 import { Public } from 'src/decorators/public.decorators';
+import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
 
 @ApiTags('mail')
 @Controller('mail')
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
-  @Get()
+  @Post('')
   @ApiOperation({
     summary: 'Send Mail',
   })
   @ResponseMessage('send email successfully')
-  sendMailer() {
-    const mail = this.mailService.sendMail();
-
-    return { mail };
+  sendMailer(@Body() email: VerifyEmail) {
+    return this.mailService.sendMail(email.email);
   }
 
   @Public()
@@ -37,5 +36,21 @@ export class MailController {
   })
   async verifyMail(@Query('token') token: string) {
     return await this.mailService.verificationEmail(token);
+  }
+
+  @Post('/send-otp-code')
+  @ApiOperation({
+    summary: 'Send Otp Code',
+  })
+  async sendOtpCode(@Body() sendOtpCodeDto: VerifyEmail) {
+    return await this.mailService.sendOtpCode(sendOtpCodeDto);
+  }
+
+  @Post('/verify-otp-code')
+  @ApiOperation({
+    summary: 'Verify Otp Code',
+  })
+  async verifyOtpCode(@Body() verifyOtpCodeDto: VerifyOtpCodeDto) {
+    return this.mailService.verifyOtpCode(verifyOtpCodeDto);
   }
 }

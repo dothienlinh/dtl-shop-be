@@ -65,10 +65,7 @@ export class UsersService {
       throw new BadRequestException('User is already exist');
     }
 
-    const [createdUser] = await Promise.all([
-      this.createUser(createUserDto, user),
-      this.otpsService.create({ email: createUserDto.email }),
-    ]);
+    const [createdUser] = await Promise.all([this.createUser(createUserDto, user)]);
 
     return createdUser;
   };

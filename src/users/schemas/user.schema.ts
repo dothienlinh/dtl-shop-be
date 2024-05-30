@@ -40,9 +40,6 @@ export class User {
   @Prop()
   address: string;
 
-  @Prop({ type: Boolean, default: false })
-  isVerify: boolean;
-
   @Prop()
   refreshToken: string;
 

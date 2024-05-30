@@ -10,7 +10,6 @@ import { AuthRegisterDto } from './dto/auth-register.dto';
 import { MailService } from 'src/mail/mail.service';
 import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
 import { OtpsService } from 'src/otps/otps.service';
-import { AuthOtpCodeDto } from './dto/auth-otp-code.dto';
 
 @Injectable()
 export class AuthService {
@@ -98,41 +97,7 @@ export class AuthService {
   };
 
   register = async (authRegisterDto: AuthRegisterDto) => {
-    const [user] = await Promise.all([
-      this.usersService.register(authRegisterDto),
-      this.otpsService.create({ email: authRegisterDto.username }),
-    ]);
-
-    return user;
-  };
-
-  sendOtpCode = async (email: string) => {
-    const [user, otp] = await Promise.all([this.usersService.findByEmail(email), this.otpsService.findByEmail(email)]);
-
-    if (!user) {
-      throw new BadRequestException('Email invalid');
-    }
-
-    if (!otp) {
-      this.otpsService.create({ email });
-    }
-
-    const otpCode = Math.floor(100000 + Math.random() * 900000);
-    const expiry = new Date(Date.now() + ms(this.configService.get<string>('OTP_CODE_EXPIRES')) / 1000);
-
-    await this.otpsService.update(email, { otp: `${otpCode}`, expiry });
-    return await this.mailService.sendOtpCode(otpCode, user.email);
-  };
-
-  verifyOtpCode = async (authOtpCodeDto: AuthOtpCodeDto) => {
-    const { email } = authOtpCodeDto;
-    const otp = await this.otpsService.findByEmail(email);
-
-    if (otp.expiry < new Date(Date.now())) {
-      throw new BadRequestException('OTP CODE expired');
-    } else if (+otp.otp !== +authOtpCodeDto.otpCode) {
-      throw new BadRequestException('OTP CODE invalid');
-    }
+    return await this.usersService.register(authRegisterDto);
   };
 
   changePassword = async (changePasswordDto: ChangePasswordDto) => {
