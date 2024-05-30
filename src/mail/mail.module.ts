@@ -4,9 +4,13 @@ import { MailController } from './mail.controller';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
+    JwtModule,
+    UsersModule,
     MailerModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         transport: {

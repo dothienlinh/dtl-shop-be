@@ -17,6 +17,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { SubscribersModule } from './subscribers/subscribers.module';
 import { MailModule } from './mail/mail.module';
 import { RolesGuard } from './guards/roles.guard';
+import { OtpsModule } from './otps/otps.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { RolesGuard } from './guards/roles.guard';
     PermissionsModule,
     SubscribersModule,
     MailModule,
+    OtpsModule,
   ],
   controllers: [AppController],
   providers: [

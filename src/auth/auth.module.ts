@@ -9,9 +9,11 @@ import { JwtStrategy } from 'src/strategys/jwt.strategy';
 import { LocalStrategy } from 'src/strategys/local.strategy';
 import { RolesModule } from 'src/roles/roles.module';
 import { MailModule } from 'src/mail/mail.module';
+import { OtpsModule } from 'src/otps/otps.module';
 
 @Module({
   imports: [
+    OtpsModule,
     MailModule,
     UsersModule,
     RolesModule,

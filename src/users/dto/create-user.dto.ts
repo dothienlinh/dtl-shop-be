@@ -22,17 +22,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   phoneNumber: string;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // @IsEnum(Gender)
-  // @ApiProperty({ enum: Gender })
-  // gender: string;
-
   @IsNotEmpty()
   @IsMongoId()
   role: mongoose.Schema.Types.ObjectId;
-
-  // @IsString()
-  // @IsNotEmpty()
-  // address: string;
 }
