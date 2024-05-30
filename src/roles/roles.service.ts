@@ -15,45 +15,41 @@ export class RolesService {
   ) {}
 
   async create(createRoleDto: CreateRoleDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return (
       await this.rolesModel.create({
         ...createRoleDto,
-        createdBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        createdBy: userMetadata,
+        updatedBy: userMetadata,
       })
     ).populate('permissions', ['name', 'apiPath', 'module', 'method']);
   }
 
   async findAll() {
-    return await this.rolesModel
-      .find()
-      .populate('permissions', ['name', 'apiPath', 'module', 'method']);
+    return await this.rolesModel.find().populate('permissions', ['name', 'apiPath', 'module', 'method']);
   }
 
   async findOne(id: string) {
-    return await this.rolesModel
-      .findById(id)
-      .populate('permissions', ['name', 'apiPath', 'module', 'method']);
+    return await this.rolesModel.findById(id).populate('permissions', ['name', 'apiPath', 'module', 'method']);
   }
 
   async update(id: string, updateRoleDto: UpdateRoleDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.rolesModel.updateOne(
       { _id: id },
       {
         ...updateRoleDto,
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        updatedBy: userMetadata,
       },
     );
   }

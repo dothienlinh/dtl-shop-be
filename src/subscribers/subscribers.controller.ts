@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { SubscribersService } from './subscribers.service';
 import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import { UpdateSubscriberDto } from './dto/update-subscriber.dto';
@@ -23,10 +15,7 @@ export class SubscribersController {
   @ApiOperation({
     summary: 'Create a new subscriber',
   })
-  create(
-    @Body() createSubscriberDto: CreateSubscriberDto,
-    @User() user: IUser,
-  ) {
+  create(@Body() createSubscriberDto: CreateSubscriberDto, @User() user: IUser) {
     return this.subscribersService.create(createSubscriberDto, user);
   }
 
@@ -50,11 +39,7 @@ export class SubscribersController {
   @ApiOperation({
     summary: 'Update subscriber by id',
   })
-  update(
-    @Param('id') id: string,
-    @Body() updateSubscriberDto: UpdateSubscriberDto,
-    @User() user: IUser,
-  ) {
+  update(@Param('id') id: string, @Body() updateSubscriberDto: UpdateSubscriberDto, @User() user: IUser) {
     return this.subscribersService.update(id, updateSubscriberDto, user);
   }
 

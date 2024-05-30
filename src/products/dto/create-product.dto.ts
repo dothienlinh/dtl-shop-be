@@ -1,11 +1,4 @@
-import {
-  IsArray,
-  IsMongoId,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Min,
-} from 'class-validator';
+import { IsArray, IsMongoId, IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
 import mongoose from 'mongoose';
 
 export class CreateProductDto {

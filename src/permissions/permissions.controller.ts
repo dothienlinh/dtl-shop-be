@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
@@ -23,10 +15,7 @@ export class PermissionsController {
   @ApiOperation({
     summary: 'Create Permissions',
   })
-  create(
-    @Body() createPermissionDto: CreatePermissionDto,
-    @User() user: IUser,
-  ) {
+  create(@Body() createPermissionDto: CreatePermissionDto, @User() user: IUser) {
     return this.permissionsService.create(createPermissionDto, user);
   }
 
@@ -50,11 +39,7 @@ export class PermissionsController {
   @ApiOperation({
     summary: 'Update permission by id',
   })
-  update(
-    @Param('id') id: string,
-    @Body() updatePermissionDto: UpdatePermissionDto,
-    @User() user: IUser,
-  ) {
+  update(@Param('id') id: string, @Body() updatePermissionDto: UpdatePermissionDto, @User() user: IUser) {
     return this.permissionsService.update(id, updatePermissionDto, user);
   }
 

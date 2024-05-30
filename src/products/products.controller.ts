@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -52,11 +44,7 @@ export class ProductsController {
     summary: 'Update product by id',
   })
   @ResponseMessage('Updated product successfully')
-  update(
-    @Param('id') id: string,
-    @Body() updateProductDto: UpdateProductDto,
-    @User() user: IUser,
-  ) {
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @User() user: IUser) {
     return this.productsService.update(id, updateProductDto, user);
   }
 

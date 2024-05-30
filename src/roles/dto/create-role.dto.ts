@@ -1,11 +1,4 @@
-import {
-  IsArray,
-  IsBoolean,
-  IsEnum,
-  IsMongoId,
-  IsNotEmpty,
-  IsString,
-} from 'class-validator';
+import { IsArray, IsBoolean, IsEnum, IsMongoId, IsNotEmpty, IsString } from 'class-validator';
 import mongoose from 'mongoose';
 import { ERole } from 'src/enums/role';
 

@@ -15,18 +15,16 @@ export class SubscribersService {
   ) {}
 
   async create(createSubscriberDto: CreateSubscriberDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.subscriberModel.create({
       ...createSubscriberDto,
-      createdBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
-      updatedBy: {
-        _id: user.id,
-        name: user.name,
-        role: user.role,
-      },
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
     });
   }
 
@@ -38,20 +36,18 @@ export class SubscribersService {
     return await this.subscriberModel.findById(id);
   }
 
-  async update(
-    id: string,
-    updateSubscriberDto: UpdateSubscriberDto,
-    user: IUser,
-  ) {
+  async update(id: string, updateSubscriberDto: UpdateSubscriberDto, user: IUser) {
+    const userMetadata = {
+      _id: user.id,
+      name: user.name,
+      role: user.role,
+    };
+
     return await this.subscriberModel.updateOne(
       { _id: id },
       {
         ...updateSubscriberDto,
-        updatedBy: {
-          _id: user.id,
-          name: user.name,
-          role: user.role,
-        },
+        updatedBy: userMetadata,
       },
     );
   }
