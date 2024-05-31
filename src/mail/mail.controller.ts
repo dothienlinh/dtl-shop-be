@@ -38,6 +38,7 @@ export class MailController {
     return await this.mailService.verificationEmail(token);
   }
 
+  @Public()
   @Post('/send-otp-code')
   @ApiOperation({
     summary: 'Send Otp Code',
@@ -46,6 +47,7 @@ export class MailController {
     return await this.mailService.sendOtpCode(sendOtpCodeDto);
   }
 
+  @Public()
   @Post('/verify-otp-code')
   @ApiOperation({
     summary: 'Verify Otp Code',
