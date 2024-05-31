@@ -13,7 +13,7 @@ export class Subscriber {
   name: string;
 
   @Prop({ type: [String] })
-  peoducts: string[];
+  products: string[];
 
   @Prop()
   createdAt: Date;

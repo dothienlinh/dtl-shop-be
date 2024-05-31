@@ -9,8 +9,6 @@ import { IUser } from 'src/interfaces/user.interface';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
-import { Roles } from 'src/decorators/roles.decorator';
-import { ERole } from 'src/enums/role';
 import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
 
 @ApiTags('auth')
@@ -37,7 +35,6 @@ export class AuthController {
   }
 
   @Get('/account')
-  @Roles(ERole.SELLER, ERole.USER)
   @ApiOperation({ summary: 'Get accout' })
   getAccount(@User() user: IUser) {
     return user;

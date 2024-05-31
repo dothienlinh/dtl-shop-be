@@ -5,6 +5,7 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { IUser } from 'src/interfaces/user.interface';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @ApiTags('roles')
 @Controller('roles')
@@ -12,6 +13,7 @@ export class RolesController {
   constructor(private readonly roleService: RolesService) {}
 
   @Post()
+  @Roles()
   @ApiOperation({
     summary: 'Create a new role',
   })
@@ -20,6 +22,7 @@ export class RolesController {
   }
 
   @Get()
+  @Roles()
   @ApiOperation({
     summary: 'Get all roles',
   })
@@ -28,6 +31,7 @@ export class RolesController {
   }
 
   @Get(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Get role by id',
   })
@@ -36,6 +40,7 @@ export class RolesController {
   }
 
   @Patch(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Update role by id',
   })
@@ -44,6 +49,7 @@ export class RolesController {
   }
 
   @Delete(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Delete role by id',
   })

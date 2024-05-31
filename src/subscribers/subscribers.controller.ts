@@ -5,6 +5,7 @@ import { UpdateSubscriberDto } from './dto/update-subscriber.dto';
 import { User } from 'src/decorators/user.decorator';
 import { IUser } from 'src/interfaces/user.interface';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @ApiTags('subscribers')
 @Controller('subscribers')
@@ -12,6 +13,7 @@ export class SubscribersController {
   constructor(private readonly subscribersService: SubscribersService) {}
 
   @Post()
+  @Roles()
   @ApiOperation({
     summary: 'Create a new subscriber',
   })
@@ -20,6 +22,7 @@ export class SubscribersController {
   }
 
   @Get()
+  @Roles()
   @ApiOperation({
     summary: 'Get list subscriber',
   })
@@ -28,6 +31,7 @@ export class SubscribersController {
   }
 
   @Get(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Get subscriber by id',
   })
@@ -36,6 +40,7 @@ export class SubscribersController {
   }
 
   @Patch(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Update subscriber by id',
   })
@@ -44,6 +49,7 @@ export class SubscribersController {
   }
 
   @Delete(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Delete subscriber by id',
   })

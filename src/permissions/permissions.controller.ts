@@ -5,6 +5,7 @@ import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { User } from 'src/decorators/user.decorator';
 import { IUser } from 'src/interfaces/user.interface';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @ApiTags('permissions')
 @Controller('permissions')
@@ -12,6 +13,7 @@ export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
 
   @Post()
+  @Roles()
   @ApiOperation({
     summary: 'Create Permissions',
   })
@@ -20,6 +22,7 @@ export class PermissionsController {
   }
 
   @Get()
+  @Roles()
   @ApiOperation({
     summary: 'Get all permissions',
   })
@@ -28,6 +31,7 @@ export class PermissionsController {
   }
 
   @Get(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Get permission by id',
   })
@@ -36,6 +40,7 @@ export class PermissionsController {
   }
 
   @Patch(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Update permission by id',
   })
@@ -44,6 +49,7 @@ export class PermissionsController {
   }
 
   @Delete(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Delete permission by id',
   })
