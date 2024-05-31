@@ -1,23 +1,26 @@
-# Sử dụng Node.js làm base image
-FROM node:16
+# Dockerfile
+# Stage 1: Build the application
+FROM node:18-alpine AS builder
 
-# Thiết lập thư mục làm việc trong container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Sao chép package*.json vào thư mục làm việc
 COPY package*.json ./
-
-# Cài đặt các dependencies
 RUN npm install
-
-# Sao chép tất cả các tệp vào thư mục làm việc
 COPY . .
-
-# Build dự án
 RUN npm run build
 
-# Expose cổng 3000
-EXPOSE 3000
+# Stage 2: Run the application
+FROM node:18-alpine
 
-# Chạy ứng dụng
-CMD ["npm", "run", "start:prod"]
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install --only=production
+
+COPY --from=builder /app/dist ./dist
+
+CMD ["node", "dist/main.js"]
+
+EXPOSE 8000
+
+# docker compose up --build
