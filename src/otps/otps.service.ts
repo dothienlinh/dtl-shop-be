@@ -19,8 +19,4 @@ export class OtpsService {
   async remove(email: string, otp: number) {
     return await this.otpModel.deleteOne({ email, otp });
   }
-
-  async findByEmail(email: string) {
-    return await this.otpModel.findOne({ email });
-  }
 }

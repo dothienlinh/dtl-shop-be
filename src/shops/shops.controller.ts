@@ -5,6 +5,8 @@ import { UpdateShopDto } from './dto/update-shop.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/decorators/user.decorator';
 import { IUser } from 'src/interfaces/user.interface';
+import { Roles } from 'src/decorators/roles.decorator';
+import { ERole } from 'src/enums/role';
 
 @ApiTags('shops')
 @Controller('shops')
@@ -12,6 +14,7 @@ export class ShopsController {
   constructor(private readonly shopsService: ShopsService) {}
 
   @Post()
+  @Roles(ERole.SELLER)
   @ApiOperation({
     summary: 'Create a shop',
   })
@@ -36,6 +39,7 @@ export class ShopsController {
   }
 
   @Patch(':id')
+  @Roles(ERole.SELLER)
   @ApiOperation({
     summary: 'Update shop by id',
   })
@@ -44,6 +48,7 @@ export class ShopsController {
   }
 
   @Delete(':id')
+  @Roles(ERole.SELLER)
   @ApiOperation({
     summary: 'Delete shop by id',
   })

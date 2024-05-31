@@ -7,6 +7,7 @@ import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { SearchUsersDto } from './dto/search-user.dto';
 import { User } from 'src/decorators/user.decorator';
 import { IUser } from 'src/interfaces/user.interface';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -14,6 +15,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @Roles()
   @ApiOperation({
     summary: 'Create a new user',
   })
@@ -51,6 +53,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Update user by id',
   })
@@ -60,6 +63,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Roles()
   @ApiOperation({
     summary: 'Delete user by id',
   })
