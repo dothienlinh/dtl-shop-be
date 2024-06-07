@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { UserReference } from 'src/interfaces/user.interface';
 
 export type RoleDocument = HydratedDocument<Role>;
@@ -11,12 +11,6 @@ export class Role {
 
   @Prop()
   description: string;
-
-  @Prop({
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: 'Permission',
-  })
-  permissions: mongoose.Schema.Types.ObjectId[];
 
   @Prop()
   isActive: boolean;

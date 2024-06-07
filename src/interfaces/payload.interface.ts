@@ -10,15 +10,6 @@ export interface IPayload {
         name: string;
       }
     | mongoose.Schema.Types.ObjectId;
-  permissions?: Permission[];
   iat?: number;
   exp?: number;
-}
-
-export interface Permission {
-  _id: string | mongoose.Schema.Types.ObjectId;
-  name: string;
-  apiPath: string;
-  method: string;
-  module: string;
 }

@@ -12,7 +12,6 @@ import { ProductsModule } from './products/products.module';
 import { ShopsModule } from './shops/shops.module';
 import { FilesModule } from './files/files.module';
 import { RolesModule } from './roles/roles.module';
-import { PermissionsModule } from './permissions/permissions.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { SubscribersModule } from './subscribers/subscribers.module';
 import { MailModule } from './mail/mail.module';
@@ -45,7 +44,6 @@ import { OtpsModule } from './otps/otps.module';
     ShopsModule,
     FilesModule,
     RolesModule,
-    PermissionsModule,
     SubscribersModule,
     MailModule,
     OtpsModule,

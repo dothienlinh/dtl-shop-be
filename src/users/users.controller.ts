@@ -15,7 +15,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Roles()
+  // @Roles()
   @ApiOperation({
     summary: 'Create a new user',
   })
