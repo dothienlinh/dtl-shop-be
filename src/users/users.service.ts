@@ -38,7 +38,13 @@ export class UsersService {
     return await hash(password, salt);
   };
 
-  createUser = async (createUserDto: CreateUserDto, user: IUser) => {
+  create = async (createUserDto: CreateUserDto, user: IUser) => {
+    const isExist = await this.checkUserIsExist(createUserDto.email);
+
+    if (isExist) {
+      throw new BadRequestException('User is already exist');
+    }
+
     const userMetadata = {
       _id: user.id,
       name: user.name,
@@ -54,18 +60,6 @@ export class UsersService {
         updatedBy: userMetadata,
       })
     ).populate('role', 'name');
-
-    return createdUser;
-  };
-
-  create = async (createUserDto: CreateUserDto, user: IUser) => {
-    const isExist = await this.checkUserIsExist(createUserDto.email);
-
-    if (isExist) {
-      throw new BadRequestException('User is already exist');
-    }
-
-    const [createdUser] = await Promise.all([this.createUser(createUserDto, user)]);
 
     return createdUser;
   };

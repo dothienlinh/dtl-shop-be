@@ -13,7 +13,7 @@ export class RolesController {
   constructor(private readonly roleService: RolesService) {}
 
   @Post()
-  // @Roles()
+  @Roles()
   @ApiOperation({
     summary: 'Create a new role',
   })
