@@ -5,7 +5,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Role, RoleDocument } from './schemas/role.schema';
 import { SoftDeleteModel } from 'mongoose-delete';
 import { IUser } from 'src/interfaces/user.interface';
-import mongoose from 'mongoose';
 
 @Injectable()
 export class RolesService {
@@ -21,21 +20,19 @@ export class RolesService {
       role: user.role,
     };
 
-    return (
-      await this.rolesModel.create({
-        ...createRoleDto,
-        createdBy: userMetadata,
-        updatedBy: userMetadata,
-      })
-    ).populate('permissions', ['name', 'apiPath', 'module', 'method']);
+    return await this.rolesModel.create({
+      ...createRoleDto,
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
+    });
   }
 
   async findAll() {
-    return await this.rolesModel.find().populate('permissions', ['name', 'apiPath', 'module', 'method']);
+    return await this.rolesModel.find();
   }
 
   async findOne(id: string) {
-    return await this.rolesModel.findById(id).populate('permissions', ['name', 'apiPath', 'module', 'method']);
+    return await this.rolesModel.findById(id);
   }
 
   async update(id: string, updateRoleDto: UpdateRoleDto, user: IUser) {
@@ -57,18 +54,6 @@ export class RolesService {
   async remove(id: string, user: IUser) {
     return await this.rolesModel.delete({ _id: id }, user.id);
   }
-
-  checkPermissions = async (roleId: mongoose.Schema.Types.ObjectId) => {
-    const role = await this.rolesModel
-      .findOne({ _id: roleId })
-      .populate('permissions', ['name', 'apiPath', 'module', 'method']);
-
-    if (role.permissions.length > 0) {
-      return role.permissions;
-    }
-
-    return null;
-  };
 
   findByName = async (nameRole: string) => {
     return await this.rolesModel.findOne({ name: nameRole });
