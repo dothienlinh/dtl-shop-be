@@ -52,6 +52,8 @@ async function bootstrap() {
     swaggerOptions: { persistAuthorization: true },
   });
 
+  app.enableCors({ origin: 'http://localhost:3000', credentials: true });
+
   await app.listen(port);
 }
 bootstrap();
