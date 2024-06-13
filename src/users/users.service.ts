@@ -94,7 +94,7 @@ export class UsersService {
   };
 
   findByEmail = async (email: string) => {
-    return (await this.userModel.findOne({ email })).populate('role', 'name');
+    return await this.userModel.findOne({ email }).populate('role', 'name');
   };
 
   update = async (id: string, updateUserDto: UpdateUserDto, user: IUser) => {
