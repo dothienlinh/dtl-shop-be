@@ -60,6 +60,12 @@ export class AuthService {
     };
   }
 
+  logout = async (refreshToken: string, response: Response) => {
+    response.clearCookie('refreshToken');
+    const user = await this.usersService.removeRefreshToken(refreshToken);
+    return user;
+  };
+
   refreshToken = async (refreshToken: string) => {
     try {
       await this.jwtService.verifyAsync(refreshToken, {
