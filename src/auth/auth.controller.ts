@@ -25,6 +25,16 @@ export class AuthController {
   async handleLogin(@User() user, @Res({ passthrough: true }) response: Response) {
     return await this.authService.login(user, response);
   }
+
+  @Public()
+  @Post('logout')
+  @ApiOperation({ summary: 'Log out' })
+  async handleLogout(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
+    const refreshToken = request.cookies['refreshToken'];
+
+    return await this.authService.logout(refreshToken, response);
+  }
+
   @Public()
   @Get('refresh')
   @ApiOperation({ summary: 'Refresh token' })

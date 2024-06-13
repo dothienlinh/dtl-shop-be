@@ -122,7 +122,11 @@ export class UsersService {
   };
 
   updateRefreshToken = async (refreshToken: string, _id: string) => {
-    return this.userModel.updateOne({ _id }, { refreshToken });
+    return await this.userModel.updateOne({ _id }, { refreshToken });
+  };
+
+  removeRefreshToken = async (refreshToken: string) => {
+    return await this.userModel.updateOne({ refreshToken }, { refreshToken: null });
   };
 
   checkRole = async (id: string, role: mongoose.Schema.Types.ObjectId) => {
