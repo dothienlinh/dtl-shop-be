@@ -52,9 +52,7 @@ export class MailService {
         },
       })
       .then(async () => {
-        await this.otpsService.create({ email, otp: otpCode });
-
-        return true;
+        return await this.otpsService.create({ email, otp: otpCode });
       })
       .catch(() => {
         throw new BadRequestException('Send OTP code failed');
