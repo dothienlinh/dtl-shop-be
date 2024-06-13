@@ -29,6 +29,7 @@ export class AuthController {
   @Public()
   @Post('logout')
   @ApiOperation({ summary: 'Log out' })
+  @ResponseMessage('Log out successfully!')
   async handleLogout(@Req() request: Request, @Res({ passthrough: true }) response: Response) {
     const refreshToken = request.cookies['refreshToken'];
 
@@ -54,7 +55,7 @@ export class AuthController {
   @Post('/register')
   @ApiOperation({ summary: 'Register' })
   @ApiBody({ type: AuthRegisterDto })
-  @ResponseMessage('Successfully registered')
+  @ResponseMessage('Register successful!')
   async register(@Body() authRegisterDto: AuthRegisterDto) {
     return this.authService.register(authRegisterDto);
   }

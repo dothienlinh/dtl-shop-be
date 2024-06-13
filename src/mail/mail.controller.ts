@@ -43,6 +43,7 @@ export class MailController {
   @ApiOperation({
     summary: 'Send Otp Code',
   })
+  @ResponseMessage('Sending OTP code successfully!')
   async sendOtpCode(@Body() sendOtpCodeDto: VerifyEmail) {
     return await this.mailService.sendOtpCode(sendOtpCodeDto);
   }
@@ -52,6 +53,7 @@ export class MailController {
   @ApiOperation({
     summary: 'Verify Otp Code',
   })
+  @ResponseMessage('Verify OTP code successfully!')
   async verifyOtpCode(@Body() verifyOtpCodeDto: VerifyOtpCodeDto) {
     return this.mailService.verifyOtpCode(verifyOtpCodeDto);
   }
