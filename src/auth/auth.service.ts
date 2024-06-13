@@ -47,12 +47,16 @@ export class AuthService {
       maxAge: ms(this.configService.get<string>('JWT_REFRESH_EXPIRES')),
     });
 
-    await this.usersService.updateRefreshToken(refreshToken, user.id);
-
-    return {
-      accessToken: await this.jwtService.signAsync({
+    const [accessToken] = await Promise.all([
+      await this.jwtService.signAsync({
         ...payload,
       }),
+      await this.usersService.updateRefreshToken(refreshToken, user.id),
+    ]);
+
+    return {
+      user: { ...payload },
+      accessToken,
     };
   }
 
