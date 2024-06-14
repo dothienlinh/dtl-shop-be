@@ -1,4 +1,4 @@
-import { Controller, Post, UseGuards, Get, Res, Req, Body } from '@nestjs/common';
+import { Controller, Post, UseGuards, Get, Res, Req, Body, Query } from '@nestjs/common';
 import { LocalAuthGuard } from '../guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { Public } from 'src/decorators/public.decorators';
@@ -64,8 +64,8 @@ export class AuthController {
   @Post('reset-password')
   @ApiOperation({ summary: 'Reset password' })
   @ApiBody({ type: ChangePasswordDto })
-  @ResponseMessage('Successfully registered')
-  async resetPassword(@Body() changePasswordDto: ChangePasswordDto) {
-    return this.authService.changePassword(changePasswordDto);
+  @ResponseMessage('Changed password successfully!')
+  async resetPassword(@Body() changePasswordDto: ChangePasswordDto, @Query('token') token: string) {
+    return this.authService.changePassword(token, changePasswordDto);
   }
 }

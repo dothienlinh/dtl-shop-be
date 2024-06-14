@@ -5,14 +5,14 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersModule } from 'src/users/users.module';
 import { OtpsModule } from 'src/otps/otps.module';
+import { TokenVerifyModule } from 'src/token-verify/token-verify.module';
 
 @Module({
   imports: [
     JwtModule,
-    UsersModule,
     OtpsModule,
+    TokenVerifyModule,
     MailerModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         transport: {

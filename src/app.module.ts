@@ -17,6 +17,7 @@ import { SubscribersModule } from './subscribers/subscribers.module';
 import { MailModule } from './mail/mail.module';
 import { RolesGuard } from './guards/roles.guard';
 import { OtpsModule } from './otps/otps.module';
+import { TokenVerifyModule } from './token-verify/token-verify.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { OtpsModule } from './otps/otps.module';
     SubscribersModule,
     MailModule,
     OtpsModule,
+    TokenVerifyModule,
   ],
   controllers: [AppController],
   providers: [

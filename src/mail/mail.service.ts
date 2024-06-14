@@ -1,20 +1,20 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
 import { OtpsService } from 'src/otps/otps.service';
 import { VerifyEmail } from './dto/verify-mail.dto';
+import { TokenVerifyService } from 'src/token-verify/token-verify.service';
 
 @Injectable()
 export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private jwtService: JwtService,
-    private usersService: UsersService,
     private configService: ConfigService,
     private otpsService: OtpsService,
+    private tokenVerifyService: TokenVerifyService,
   ) {}
 
   async sendMail(email: string) {
@@ -84,13 +84,15 @@ export class MailService {
         to: email,
         from: '"DTL Shop" <dtlshop2004@gmail.com>',
         subject: 'Testing Nest MailerModule ✔',
-        template: 'veryfiEmail',
+        template: 'verifyEmail',
         context: {
           token,
         },
       })
-      .then(() => {
-        return { token };
+      .then(async () => {
+        const tokenVerify = await this.tokenVerifyService.create({ token });
+
+        return tokenVerify ? true : false;
       })
       .catch(() => {
         throw new BadRequestException('Email does not exist');
@@ -99,9 +101,17 @@ export class MailService {
 
   verificationEmail = async (token: string) => {
     try {
-      return await this.jwtService.verifyAsync(token, {
+      const data = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>('JWT_VERIFY_SECRET'),
       });
+
+      const tokenVerify = await this.tokenVerifyService.findAndRemove(token);
+
+      if (!tokenVerify) {
+        throw new BadRequestException('Verification email failed');
+      }
+
+      return data.email;
     } catch (error) {
       throw new BadRequestException('Verification email failed');
     }

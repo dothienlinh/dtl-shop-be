@@ -164,11 +164,8 @@ export class UsersService {
     ).populate('role', 'name');
   };
 
-  changePassword = async (changePasswordDto: ChangePasswordDto) => {
-    return await this.userModel.updateOne(
-      { email: changePasswordDto.email },
-      { password: await this.hashPassword(changePasswordDto.password) },
-    );
+  changePassword = async (changePasswordDto: ChangePasswordDto, email: string) => {
+    return await this.userModel.updateOne({ email }, { password: await this.hashPassword(changePasswordDto.password) });
   };
 
   verifyEmail = async (email: string) => {

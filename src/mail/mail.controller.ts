@@ -15,7 +15,7 @@ export class MailController {
   @ApiOperation({
     summary: 'Send Mail',
   })
-  @ResponseMessage('send email successfully')
+  @ResponseMessage('Send email successfully!')
   sendMailer(@Body() email: VerifyEmail) {
     return this.mailService.sendMail(email.email);
   }
@@ -25,6 +25,7 @@ export class MailController {
   @ApiOperation({
     summary: 'Send Verification Email',
   })
+  @ResponseMessage('If the account exist, we will email you instructions to reset the password.')
   async verifyEmail(@Body() email: VerifyEmail) {
     return await this.mailService.sendVerificationEmail(email.email);
   }
