@@ -8,6 +8,7 @@ import ms from 'ms';
 import { IPayload } from 'src/interfaces/payload.interface';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,7 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private mailService: MailService,
   ) {}
 
   async validateUser(username: string, pass: string) {
@@ -106,7 +108,9 @@ export class AuthService {
     return await this.usersService.register(authRegisterDto);
   };
 
-  changePassword = async (changePasswordDto: ChangePasswordDto) => {
-    return this.usersService.changePassword(changePasswordDto);
+  changePassword = async (token: string, changePasswordDto: ChangePasswordDto) => {
+    const email = await this.mailService.verificationEmail(token);
+
+    return this.usersService.changePassword({ ...changePasswordDto }, email);
   };
 }
