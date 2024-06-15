@@ -6,6 +6,7 @@ import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
 import { OtpsService } from 'src/otps/otps.service';
 import { VerifyEmail } from './dto/verify-mail.dto';
 import { TokenVerifyService } from 'src/token-verify/token-verify.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class MailService {
@@ -14,6 +15,7 @@ export class MailService {
     private jwtService: JwtService,
     private configService: ConfigService,
     private otpsService: OtpsService,
+    private usersService: UsersService,
     private tokenVerifyService: TokenVerifyService,
   ) {}
 
@@ -39,8 +41,13 @@ export class MailService {
   }
 
   sendOtpCode = async (sendOtpCodeDto: VerifyEmail) => {
-    const otpCode = Math.floor(100000 + Math.random() * 900000);
     const { email } = sendOtpCodeDto;
+
+    const isExist = this.usersService.checkUserIsExist(email);
+    if (isExist) throw new BadRequestException('Account already exists!');
+
+    const otpCode = Math.floor(100000 + Math.random() * 900000);
+
     return await this.mailerService
       .sendMail({
         to: email,
