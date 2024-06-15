@@ -7,11 +7,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { OtpsModule } from 'src/otps/otps.module';
 import { TokenVerifyModule } from 'src/token-verify/token-verify.module';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [
     JwtModule,
     OtpsModule,
+    UsersModule,
     TokenVerifyModule,
     MailerModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
