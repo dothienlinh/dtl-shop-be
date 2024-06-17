@@ -11,15 +11,6 @@ import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
 export class MailController {
   constructor(private readonly mailService: MailService) {}
 
-  @Post('')
-  @ApiOperation({
-    summary: 'Send Mail',
-  })
-  @ResponseMessage('Send email successfully!')
-  sendMailer(@Body() email: VerifyEmail) {
-    return this.mailService.sendMail(email.email);
-  }
-
   @Public()
   @Post('/send-verification-email')
   @ApiOperation({

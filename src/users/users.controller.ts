@@ -8,6 +8,7 @@ import { SearchUsersDto } from './dto/search-user.dto';
 import { User } from 'src/decorators/user.decorator';
 import { IUser } from 'src/interfaces/user.interface';
 import { Roles } from 'src/decorators/roles.decorator';
+import { ERole } from 'src/enums/role';
 
 @ApiTags('users')
 @Controller('users')
@@ -30,8 +31,13 @@ export class UsersController {
   @ResponseMessage('Get users successfully')
   @ApiQuery({ name: 'page', required: false, type: Number })
   @ApiQuery({ name: 'limit', required: false, type: Number })
-  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
-    return this.usersService.findAll(page, limit);
+  @ApiQuery({ name: 'role', required: true, type: [String] })
+  findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10, @Query('role') role: string[]) {
+    if (!Array.isArray(role)) {
+      role = [role];
+    }
+
+    return this.usersService.findAll(page, limit, role as ERole[]);
   }
 
   @Get('search')
@@ -40,8 +46,20 @@ export class UsersController {
   })
   @ApiQuery({ name: 'email', required: false, type: String })
   @ApiQuery({ name: 'name', required: false, type: String })
-  search(@Query() query: SearchUsersDto) {
-    return this.usersService.findByField(query);
+  @ApiQuery({ name: 'role', required: true, type: [String] })
+  @ApiQuery({ name: '_id', required: false, type: String })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ResponseMessage('Search users successfully')
+  search(@Query() query: SearchUsersDto, @Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+    if (!Array.isArray(query.role)) {
+      query = {
+        ...query,
+        role: [query.role],
+      };
+    }
+
+    return this.usersService.findByField(query, page, limit);
   }
 
   @Get(':id')

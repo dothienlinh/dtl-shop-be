@@ -14,7 +14,7 @@ export class ShopsController {
   constructor(private readonly shopsService: ShopsService) {}
 
   @Post()
-  @Roles(ERole.SELLER)
+  @Roles(ERole.Seller)
   @ApiOperation({
     summary: 'Create a shop',
   })
@@ -39,7 +39,7 @@ export class ShopsController {
   }
 
   @Patch(':id')
-  @Roles(ERole.SELLER)
+  @Roles(ERole.Seller)
   @ApiOperation({
     summary: 'Update shop by id',
   })
@@ -48,7 +48,7 @@ export class ShopsController {
   }
 
   @Delete(':id')
-  @Roles(ERole.SELLER)
+  @Roles(ERole.Seller)
   @ApiOperation({
     summary: 'Delete shop by id',
   })
