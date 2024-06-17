@@ -19,27 +19,6 @@ export class MailService {
     private tokenVerifyService: TokenVerifyService,
   ) {}
 
-  async sendMail(email: string) {
-    return await this.mailerService
-      .sendMail({
-        to: email,
-        from: '"DTL Shop" <dtlshop2004@gmail.com>',
-        subject: 'Testing Nest MailerModule ✔',
-        template: 'forgotPassword',
-        context: {
-          // Data to be sent to template engine.
-          code: 'cf1a3f828287',
-          username: 'john doe',
-        },
-      })
-      .then(() => {
-        console.log('Email has been sent');
-      })
-      .catch(() => {
-        throw new BadRequestException('Send mail failed');
-      });
-  }
-
   sendOtpCode = async (sendOtpCodeDto: VerifyEmail) => {
     const { email } = sendOtpCodeDto;
 

@@ -58,4 +58,10 @@ export class RolesService {
   findByName = async (nameRole: string) => {
     return await this.rolesModel.findOne({ name: nameRole });
   };
+
+  getIdByNames = async (nameRoles: string[]) => {
+    const roles = await this.rolesModel.find().in('name', nameRoles);
+
+    return roles.map((role) => role._id);
+  };
 }

@@ -12,14 +12,12 @@ import { AuthRegisterDto } from 'src/auth/dto/auth-register.dto';
 import { RolesService } from 'src/roles/roles.service';
 import { ERole } from 'src/enums/role';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { OtpsService } from 'src/otps/otps.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: SoftDeleteModel<UserDocument>,
     private rolesService: RolesService,
-    private otpsService: OtpsService,
   ) {}
 
   checkUserIsExist = async (email: string) => {
@@ -52,41 +50,79 @@ export class UsersService {
     };
     const password = await this.hashPassword(createUserDto.password);
 
-    const createdUser = (
-      await this.userModel.create({
-        ...createUserDto,
-        password,
-        createdBy: userMetadata,
-        updatedBy: userMetadata,
-      })
-    ).populate('role', 'name');
+    const createdUser = await this.userModel.create({
+      ...createUserDto,
+      password,
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
+    });
 
-    return createdUser;
+    createdUser.populate('role', 'name');
+
+    return true;
   };
 
-  findAll = async (page: number, limit: number) => {
+  findAll = async (page: number, limit: number, roles: ERole[]) => {
     const skip = (page - 1) * limit;
+    const roleIds = await this.rolesService.getIdByNames([...roles]);
 
     const [users, totalDocuments] = await Promise.all([
-      this.userModel.find().skip(skip).limit(limit).populate('role', 'name'),
+      this.userModel
+        .find()
+        .in('role', roleIds)
+        .skip(skip)
+        .limit(limit)
+        .populate('role', 'name')
+        .select('-refreshToken -password -deleted -createdAt -updatedAt'),
       this.userModel.countDocuments(),
     ]);
 
     const totalPages = Math.ceil(totalDocuments / limit);
 
-    return { users, totalPages, currentPage: page, limit };
+    return { users, totalPages, currentPage: page, limit, total: totalDocuments };
   };
 
-  findByField = async (query: SearchUsersDto) => {
+  findByField = async (query: SearchUsersDto, page: number, limit: number) => {
+    const roles = query.role;
+    const skip = (page - 1) * limit;
+
     if (!Object.keys(query).length) {
-      return await this.findAll(1, 10);
+      return await this.findAll(1, 10, roles);
     }
 
-    return await this.userModel.find({
-      $or: Object.keys(query).map((key) => ({
-        [key]: { $regex: new RegExp(query[key], 'i') },
-      })),
+    const roleIds = await this.rolesService.getIdByNames([...roles]);
+
+    const arrayQuery = Object.keys(query).map((key) => {
+      if (Array.isArray(query[key])) {
+        return { [key]: query[key].map((_, index) => roleIds[index]) };
+      }
+
+      if (key === '_id') {
+        return { [key]: query[key] };
+      }
+
+      return { [key]: { $regex: new RegExp(query[key], 'i') } };
     });
+
+    const [users, totalDocuments] = await Promise.all([
+      this.userModel
+        .find({
+          $and: arrayQuery,
+        })
+        .skip(skip)
+        .limit(limit)
+        .populate('role', 'name')
+        .select('-refreshToken -password -deleted -createdAt -updatedAt'),
+      this.userModel
+        .find({
+          $and: arrayQuery,
+        })
+        .countDocuments(),
+    ]);
+
+    const totalPages = Math.ceil(totalDocuments / limit);
+
+    return { users, totalPages, currentPage: page, limit, total: totalDocuments };
   };
 
   findOne = async (id: string) => {
@@ -149,7 +185,7 @@ export class UsersService {
     }
 
     const [defaultRole, hashPassword] = await Promise.all([
-      this.rolesService.findByName(ERole.USER),
+      this.rolesService.findByName(ERole.User),
       this.hashPassword(password),
     ]);
 
