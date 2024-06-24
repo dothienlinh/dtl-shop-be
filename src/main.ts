@@ -31,7 +31,7 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Shopee API Document')
+    .setTitle('DTL-Shop API Document')
     .setDescription('All module API')
     .setVersion('1.0')
     .addBearerAuth(
