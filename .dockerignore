@@ -1,6 +1,10 @@
-# .dockerignore
-node_modules
-dist
-npm-debug.log
+/dist
+/node_modules
+/build
+yarn.lock
 Dockerfile
-.dockerignore
+README.md
+.git
+.gitignore
+docker-compose.yml
+.env

@@ -20,6 +20,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Create a new user',
   })
+  @ResponseMessage('Create user successfully!')
   create(@Body() createUserDto: CreateUserDto, @User() user: IUser) {
     return this.usersService.create(createUserDto, user);
   }
@@ -75,6 +76,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Update user by id',
   })
+  @ResponseMessage('Update successfully!')
   @ApiBody({ type: UpdateUserDto })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @User() user: IUser) {
     return this.usersService.update(id, updateUserDto, user);
@@ -85,6 +87,7 @@ export class UsersController {
   @ApiOperation({
     summary: 'Delete user by id',
   })
+  @ResponseMessage('Delete successfully!')
   remove(@Param('id') id: string, @User() user: IUser) {
     return this.usersService.remove(id, user);
   }
