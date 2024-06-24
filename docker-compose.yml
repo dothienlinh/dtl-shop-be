@@ -7,18 +7,8 @@ services:
     container_name: dtl-shop-be
     user: "${UID}:${GID}"
     restart: always
-    environment:
-      - PORT=8000
-      - MONGODB_URI=mongodb+srv://dothienlinh2004thd:a6960cwl8WKkYdSE@dtl-shope-db.yjn3uuc.mongodb.net/dtl-shope-db
-      - JWT_ACCESS_TOKEN_SECRET=RspUID5pw+jumbUg3ORscbEUb4vMYCkiwE2TxLCO4oGADDb9Ft5D5ZZb31Dpveu+Kn1lsfv1GnRMWXvWce7ZiiVkGTwJ6eZnTSVKh6jAbi31OWuEVjPRxyh72Bxad7RVMh2EX6YVmCDZhOwndarUWZ9nrCRp61p7jcQLLncsdeTnNjSBpWXhhgBpC8h5AJ2jL3xDvqJRU0H1zDC6sLc3qYmh5iFaBqgo9l/NwO9aS7ayE9BhXV7lgKyZoC4ieG93vorScqUUsScCfmpUDF5whFj+1erlwvhLvlURQv/8ISxdiz/bxncleS6cbZ2HXatFRtckhd9maDQ4dxKPuJacbA==
-      - JWT_ACCESS_EXPIRES=10m
-      - JWT_REFRESH_TOKEN_SECRET=YyJNSS/8036uGwsFDaSblLWkKlmk493Et0MhDkzTNZgJjVTgzf2NA1WgE3Eqt63T/D4gcPCxuSiD3f52gbWwwd5bWHgaqHfp631FlqnxpHmXrj8PTwjgsUlvI3VqTSYKSbnyQrwCV/P2+FLfHmSE9cQ+YNOkaFU07X0qOCea4M7kRDB1zQRmnfy+PX2C9Yp2QuPElCaPRsz3Sihi4nzjIrnQ9XJWX/fJz0JgR/4kkew1FiLGFJig9fqMSyy02qn0OMWHGnMEy+OeUarhIvMdKKsJNBooONMAytCAu7huuqoe6yiutvpGejL3TYhtb0x+YsO9e9bpC853JW7WRzNSJw==
-      - JWT_REFRESH_EXPIRES=1d
-      - EMAIL_HOST=smtp.gmail.com
-      - EMAIL_USERNAME=dtlshop2004@gmail.com
-      - EMAIL_PASSWORD=tmln ykjz fcum ogyp
-      - JWT_VERIFY_SECRET=tzilXQiVi4ix+kr2TI6LzlBAs2FknX63GhkOk1ww+cNZ4ufqp4mxZtCmj6dxjAQJ2O3H2tDk7/7pp5RLfVs5TAHjKeFzmpzKFlGlRB3Atn+iZZUXSk+j5foK+puMHmYmlVAr22mS1M6d25cE8dzhBQ3qiWYdscheaC/iQU3nh+SGF7kZZHFosJcI8etn+NxFw/WzIQrZOLSOCh/HAvJ5i6zjLZp6Twbz6dZF+6ttsQVv0tMQNzAxCa55MZlSTvBXPgG3qYHi4vu77NEir94leJPVzwCzwvJWQfuEuzDvc2K4Lfd54ovqh2m9q6W+5wMA5Dctt30jo8pq2/+0iHfFQA==
-      - JWT_VERIFY_EXPIRES=5m
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     networks:
