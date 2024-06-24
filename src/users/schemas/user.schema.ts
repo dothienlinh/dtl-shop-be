@@ -20,7 +20,7 @@ export class User {
   userName: string;
 
   @Prop({ default: null })
-  avarta: string;
+  avatar: string;
 
   @Prop()
   phoneNumber: string;

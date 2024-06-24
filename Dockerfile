@@ -1,26 +1,17 @@
-# Dockerfile
-# Stage 1: Build the application
-FROM node:18-alpine AS builder
+FROM node:20.14.0-alpine
 
-WORKDIR /app
+WORKDIR /app/backend
 
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+RUN chown node:node /app/backend
 
-# Stage 2: Run the application
-FROM node:18-alpine
+COPY --chown=node:node package*.json ./
 
-WORKDIR /app
+USER node
 
-COPY package*.json ./
-RUN npm install --only=production
+RUN npm install --production
 
-COPY --from=builder /app/dist ./dist
-
-CMD ["node", "dist/main.js"]
+COPY --chown=node:node . .
 
 EXPOSE 8000
 
-# docker compose up --build
+CMD ["npm", "run", "start:prod"]

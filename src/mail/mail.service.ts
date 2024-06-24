@@ -22,7 +22,7 @@ export class MailService {
   sendOtpCode = async (sendOtpCodeDto: VerifyEmail) => {
     const { email } = sendOtpCodeDto;
 
-    const isExist = this.usersService.checkUserIsExist(email);
+    const isExist = await this.usersService.checkUserIsExist(email);
     if (isExist) throw new BadRequestException('Account already exists!');
 
     const otpCode = Math.floor(100000 + Math.random() * 900000);
