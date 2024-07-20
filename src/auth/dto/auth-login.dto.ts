@@ -4,8 +4,8 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class AuthLoginDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ example: 'example@gmail.com', description: 'username' })
-  readonly username: string;
+  @ApiProperty({ example: 'admin@gmail.com', description: 'email' })
+  readonly email: string;
 
   @IsString()
   @IsNotEmpty()

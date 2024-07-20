@@ -5,8 +5,8 @@ import { Match } from 'src/decorators/match.decorator';
 export class AuthRegisterDto {
   @IsString()
   @IsNotEmpty()
-  @ApiProperty({ example: 'example@gmail.com', description: 'username' })
-  readonly username: string;
+  @ApiProperty({ example: 'example@gmail.com', description: 'email' })
+  readonly email: string;
 
   @IsString()
   @IsNotEmpty()
