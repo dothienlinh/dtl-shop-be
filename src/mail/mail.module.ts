@@ -21,7 +21,7 @@ import { UsersModule } from 'src/users/users.module';
           host: configService.get<string>('EMAIL_HOST'),
           secure: false,
           auth: {
-            user: configService.get<string>('EMAIL_USERNAME'),
+            user: configService.get<string>('EMAIL_email'),
             pass: configService.get<string>('EMAIL_PASSWORD'),
           },
         },

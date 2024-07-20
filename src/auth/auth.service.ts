@@ -19,8 +19,8 @@ export class AuthService {
     private mailService: MailService,
   ) {}
 
-  async validateUser(username: string, pass: string) {
-    const user = await this.usersService.findByEmail(username);
+  async validateUser(email: string, pass: string) {
+    const user = await this.usersService.findByEmail(email);
 
     if (user) {
       const { password } = user;

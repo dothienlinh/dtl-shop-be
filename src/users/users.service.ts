@@ -176,9 +176,9 @@ export class UsersService {
   };
 
   register = async (authRegisterDto: AuthRegisterDto) => {
-    const { password, username } = authRegisterDto;
+    const { password, email } = authRegisterDto;
 
-    const isUser = await this.checkUserIsExist(username);
+    const isUser = await this.checkUserIsExist(email);
 
     if (isUser) {
       throw new BadRequestException('User is already exist');
@@ -191,7 +191,7 @@ export class UsersService {
 
     return (
       await this.userModel.create({
-        email: username,
+        email: email,
         password: hashPassword,
         name: `name ${Date.now()}`,
         userName: `name name ${Date.now()}`,
