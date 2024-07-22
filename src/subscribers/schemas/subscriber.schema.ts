@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { UserReference } from 'src/interfaces/user.interface';
+import { UserReference } from 'src/common/interfaces/user.interface';
 
 export type SubscriberDocument = HydratedDocument<Subscriber>;
 

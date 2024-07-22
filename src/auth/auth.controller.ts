@@ -1,15 +1,15 @@
-import { Controller, Post, UseGuards, Get, Res, Req, Body, Query } from '@nestjs/common';
-import { LocalAuthGuard } from '../guards/local-auth.guard';
-import { AuthService } from './auth.service';
-import { Public } from 'src/decorators/public.decorators';
-import { User } from 'src/decorators/user.decorator';
-import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
-import { Request, Response } from 'express';
-import { IUser } from 'src/interfaces/user.interface';
+import { Body, Controller, Get, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Request, Response } from 'express';
+import { Public } from 'src/common/decorators/public.decorators';
+import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
+import { User } from 'src/common/decorators/user.decorator';
+import { LocalAuthGuard } from 'src/common/guards/local-auth.guard';
+import { IUser } from 'src/common/interfaces/user.interface';
+import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
+import { AuthService } from './auth.service';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
-import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
 
 @ApiTags('auth')
 @Controller('auth')

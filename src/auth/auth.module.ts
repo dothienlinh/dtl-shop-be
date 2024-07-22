@@ -5,8 +5,8 @@ import { UsersModule } from 'src/users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { JwtStrategy } from 'src/strategys/jwt.strategy';
-import { LocalStrategy } from 'src/strategys/local.strategy';
+import { JwtStrategy } from 'src/common/strategys/jwt.strategy';
+import { LocalStrategy } from 'src/common/strategys/local.strategy';
 import { RolesModule } from 'src/roles/roles.module';
 import { MailModule } from 'src/mail/mail.module';
 

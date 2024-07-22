@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Match } from 'src/decorators/match.decorator';
+import { Match } from 'src/common/decorators/match.decorator';
 
 export class AuthRegisterDto {
   @IsString()

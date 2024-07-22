@@ -2,10 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { RolesService } from './roles.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
-import { IUser } from 'src/interfaces/user.interface';
+import { IUser } from 'src/common/interfaces/user.interface';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/decorators/user.decorator';
-import { Roles } from 'src/decorators/roles.decorator';
+import { User } from 'src/common/decorators/user.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @ApiTags('roles')
 @Controller('roles')

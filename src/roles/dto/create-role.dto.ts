@@ -1,5 +1,5 @@
 import { IsBoolean, IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { ERole } from 'src/enums/role';
+import { ERole } from 'src/common/enums/role';
 
 export class CreateRoleDto {
   @IsString()

@@ -3,11 +3,11 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/decorators/user.decorator';
-import { IUser } from 'src/interfaces/user.interface';
-import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
-import { Roles } from 'src/decorators/roles.decorator';
-import { ERole } from 'src/enums/role';
+import { User } from 'src/common/decorators/user.decorator';
+import { IUser } from 'src/common/interfaces/user.interface';
+import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { ERole } from 'src/common/enums/role';
 
 @ApiTags('products')
 @Controller('products')

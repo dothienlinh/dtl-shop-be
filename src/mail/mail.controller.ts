@@ -1,9 +1,9 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
+import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
 import { VerifyEmail } from './dto/verify-mail.dto';
-import { Public } from 'src/decorators/public.decorators';
+import { Public } from 'src/common/decorators/public.decorators';
 import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
 
 @ApiTags('mail')

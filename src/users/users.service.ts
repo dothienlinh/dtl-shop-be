@@ -6,12 +6,12 @@ import { User, UserDocument } from './schemas/user.schema';
 import { SoftDeleteModel } from 'mongoose-delete';
 import { compare, genSalt, hash } from 'bcrypt';
 import { SearchUsersDto } from './dto/search-user.dto';
-import { IUser } from 'src/interfaces/user.interface';
 import mongoose from 'mongoose';
 import { AuthRegisterDto } from 'src/auth/dto/auth-register.dto';
 import { RolesService } from 'src/roles/roles.service';
-import { ERole } from 'src/enums/role';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { IUser } from 'src/common/interfaces/user.interface';
+import { ERole } from 'src/common/enums/role';
 
 @Injectable()
 export class UsersService {
