@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
-import { IUser } from 'src/interfaces/user.interface';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import ms from 'ms';
-import { IPayload } from 'src/interfaces/payload.interface';
-import { AuthRegisterDto } from './dto/auth-register.dto';
-import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
+import { IPayload } from 'src/common/interfaces/payload.interface';
+import { IUser } from 'src/common/interfaces/user.interface';
 import { MailService } from 'src/mail/mail.service';
+import { ChangePasswordDto } from 'src/users/dto/change-password.dto';
+import { UsersService } from '../users/users.service';
+import { AuthRegisterDto } from './dto/auth-register.dto';
 
 @Injectable()
 export class AuthService {

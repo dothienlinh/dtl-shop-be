@@ -4,7 +4,7 @@ import { UpdateRoleDto } from './dto/update-role.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Role, RoleDocument } from './schemas/role.schema';
 import { SoftDeleteModel } from 'mongoose-delete';
-import { IUser } from 'src/interfaces/user.interface';
+import { IUser } from 'src/common/interfaces/user.interface';
 
 @Injectable()
 export class RolesService {

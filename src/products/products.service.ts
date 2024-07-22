@@ -4,7 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
 import { SoftDeleteModel } from 'mongoose-delete';
-import { IUser } from 'src/interfaces/user.interface';
+import { IUser } from 'src/common/interfaces/user.interface';
 
 @Injectable()
 export class ProductsService {

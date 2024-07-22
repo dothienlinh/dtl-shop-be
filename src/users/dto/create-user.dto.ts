@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 import { IsDateString, IsEmail, IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import mongoose from 'mongoose';
-import { EGender } from 'src/enums/user';
+import { EGender } from 'src/common/enums/user';
 
 export class CreateUserDto {
   @IsString()

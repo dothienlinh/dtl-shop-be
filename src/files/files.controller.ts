@@ -3,7 +3,7 @@ import { FilesService } from './services/files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FileUploadDto } from './dto/file-upload.dto';
-import { ResponseMessage } from 'src/decorators/responseMessage.decorator';
+import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
 
 @ApiTags('Uploaded File')
 @Controller('files')

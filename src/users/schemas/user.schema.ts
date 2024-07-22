@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { EGender } from 'src/enums/user';
-import { UserReference } from 'src/interfaces/user.interface';
+import { EGender } from 'src/common/enums/user';
+import { UserReference } from 'src/common/interfaces/user.interface';
 
 export type UserDocument = HydratedDocument<User>;
 

@@ -1,6 +1,6 @@
 import { IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import mongoose from 'mongoose';
-import { ERole } from 'src/enums/role';
+import { ERole } from 'src/common/enums/role';
 
 export class SearchUsersDto {
   @IsString()

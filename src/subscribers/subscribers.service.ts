@@ -5,7 +5,7 @@ import { SoftDeleteModel } from 'mongoose-delete';
 import { InjectModel } from '@nestjs/mongoose';
 import { Subscriber } from 'rxjs';
 import { SubscriberDocument } from './schemas/subscriber.schema';
-import { IUser } from 'src/interfaces/user.interface';
+import { IUser } from 'src/common/interfaces/user.interface';
 
 @Injectable()
 export class SubscribersService {
