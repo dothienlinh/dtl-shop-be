@@ -57,7 +57,7 @@ export class UsersService {
       updatedBy: userMetadata,
     });
 
-    createdUser.populate('role', 'name');
+    await createdUser.populate('role', 'name');
 
     return true;
   };
@@ -79,7 +79,13 @@ export class UsersService {
 
     const totalPages = Math.ceil(totalDocuments / limit);
 
-    return { users, totalPages, currentPage: page, limit, total: totalDocuments };
+    return {
+      users,
+      totalPages,
+      currentPage: page,
+      limit,
+      total: totalDocuments,
+    };
   };
 
   findByField = async (query: SearchUsersDto, page: number, limit: number) => {
@@ -122,11 +128,20 @@ export class UsersService {
 
     const totalPages = Math.ceil(totalDocuments / limit);
 
-    return { users, totalPages, currentPage: page, limit, total: totalDocuments };
+    return {
+      users,
+      totalPages,
+      currentPage: page,
+      limit,
+      total: totalDocuments,
+    };
   };
 
   findOne = async (id: string) => {
-    return await this.userModel.findById(id).populate('role', 'name');
+    return await this.userModel
+      .findById(id)
+      .populate('role', 'name')
+      .select('-refreshToken -password -deleted -createdAt -updatedAt');
   };
 
   findByEmail = async (email: string) => {

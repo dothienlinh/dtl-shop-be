@@ -15,10 +15,19 @@ export class ChatService {
       name: user.name,
       role: user.role,
     };
-    return await this.chatModel.create({ ...createChatDto, createdBy: userMetadata, updatedBy: userMetadata });
+
+    return await this.chatModel.create({
+      ...createChatDto,
+      sender: user.id,
+      createdBy: userMetadata,
+      updatedBy: userMetadata,
+    });
   }
 
-  async findAll() {
-    return await this.chatModel.find();
+  async getMessagesForUser(sender: string, receiver: string) {
+    return await this.chatModel
+      .find()
+      .where({ sender, receiver })
+      .populate({ path: 'receiver', select: ['avatar', 'name', 'userName'] });
   }
 }
