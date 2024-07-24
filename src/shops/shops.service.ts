@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateShopDto } from './dto/create-shop.dto';
-import { UpdateShopDto } from './dto/update-shop.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Shop, ShopDocument } from './schemas/shop.schema';
 import { SoftDeleteModel } from 'mongoose-delete';
 import { IUser } from 'src/common/interfaces/user.interface';
+import { CreateShopDto } from './dto/create-shop.dto';
+import { UpdateShopDto } from './dto/update-shop.dto';
+import { Shop, ShopDocument } from './schemas/shop.schema';
 
 @Injectable()
 export class ShopsService {

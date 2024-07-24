@@ -113,4 +113,16 @@ export class AuthService {
 
     return this.usersService.changePassword({ ...changePasswordDto }, email);
   };
+
+  handleVerifyToken = async (token: string) => {
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
+      });
+
+      return payload;
+    } catch (e) {
+      throw new BadRequestException('Invalid refresh token');
+    }
+  };
 }

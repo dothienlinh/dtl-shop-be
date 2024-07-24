@@ -1,17 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { User, UserDocument } from './schemas/user.schema';
-import { SoftDeleteModel } from 'mongoose-delete';
 import { compare, genSalt, hash } from 'bcrypt';
-import { SearchUsersDto } from './dto/search-user.dto';
 import mongoose from 'mongoose';
+import { SoftDeleteModel } from 'mongoose-delete';
 import { AuthRegisterDto } from 'src/auth/dto/auth-register.dto';
+import { ERole } from 'src/common/enums/role';
+import { IUser } from 'src/common/interfaces/user.interface';
 import { RolesService } from 'src/roles/roles.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { IUser } from 'src/common/interfaces/user.interface';
-import { ERole } from 'src/common/enums/role';
+import { CreateUserDto } from './dto/create-user.dto';
+import { SearchUsersDto } from './dto/search-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
 export class UsersService {

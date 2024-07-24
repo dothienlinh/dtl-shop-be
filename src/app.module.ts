@@ -6,6 +6,7 @@ import MongooseDelete from 'mongoose-delete';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { ChatModule } from './chat/chat.module';
 import { JwtAuthGuard } from './common/guards/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { TransformInterceptor } from './common/interceptors/response.interceptor';
@@ -49,6 +50,7 @@ import { UsersModule } from './users/users.module';
     MailModule,
     OtpsModule,
     TokenVerifyModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import { JwtService } from '@nestjs/jwt';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
+import { JwtService } from '@nestjs/jwt';
 import { OtpsService } from 'src/otps/otps.service';
-import { VerifyEmail } from './dto/verify-mail.dto';
 import { TokenVerifyService } from 'src/token-verify/token-verify.service';
 import { UsersService } from 'src/users/users.service';
+import { VerifyEmail } from './dto/verify-mail.dto';
+import { VerifyOtpCodeDto } from './dto/verify-otp-code-mail.dto';
 
 @Injectable()
 export class MailService {

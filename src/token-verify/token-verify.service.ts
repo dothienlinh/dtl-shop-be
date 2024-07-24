@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTokenVerifyDto } from './dto/create-token-verify.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { TokenVerify } from './schemas/token-verify.schema';
 import { Model } from 'mongoose';
+import { CreateTokenVerifyDto } from './dto/create-token-verify.dto';
+import { TokenVerify } from './schemas/token-verify.schema';
 
 @Injectable()
 export class TokenVerifyService {

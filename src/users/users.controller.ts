@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { SearchUsersDto } from './dto/search-user.dto';
 import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
-import { ERole } from 'src/common/enums/role';
 import { Roles } from 'src/common/decorators/roles.decorator';
-import { IUser } from 'src/common/interfaces/user.interface';
 import { User } from 'src/common/decorators/user.decorator';
+import { ERole } from 'src/common/enums/role';
+import { IUser } from 'src/common/interfaces/user.interface';
+import { CreateUserDto } from './dto/create-user.dto';
+import { SearchUsersDto } from './dto/search-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
 
 @ApiTags('users')
 @Controller('users')

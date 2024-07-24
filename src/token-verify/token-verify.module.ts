@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { TokenVerifyService } from './token-verify.service';
-import { TokenVerifyController } from './token-verify.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TokenVerify, TokenVerifySchema } from './schemas/token-verify.schema';
+import { TokenVerifyController } from './token-verify.controller';
+import { TokenVerifyService } from './token-verify.service';
 
 @Module({
   imports: [MongooseModule.forFeature([{ name: TokenVerify.name, schema: TokenVerifySchema }])],
