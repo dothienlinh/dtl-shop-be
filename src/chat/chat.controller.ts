@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/common/decorators/user.decorator';
 import { IUser } from 'src/common/interfaces/user.interface';
 import { ChatService } from './chat.service';
@@ -20,9 +20,11 @@ export class ChatController {
 
   @Get('')
   @ApiOperation({
-    summary: 'Find all chat',
+    summary: 'Get Messages For User',
   })
-  async findSAll() {
-    return await this.chatService.findAll();
+  @ApiQuery({ name: 'receiver', required: false, type: String })
+  async getMessagesForUser(@Query('receiver') receiver: string, @User() user: IUser) {
+    const sender = user.id;
+    return await this.chatService.getMessagesForUser(sender, receiver);
   }
 }
