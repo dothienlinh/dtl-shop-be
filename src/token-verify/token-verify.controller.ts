@@ -1,7 +1,7 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
-import { TokenVerifyService } from './token-verify.service';
-import { CreateTokenVerifyDto } from './dto/create-token-verify.dto';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateTokenVerifyDto } from './dto/create-token-verify.dto';
+import { TokenVerifyService } from './token-verify.service';
 
 @ApiTags('token-verify')
 @Controller('token-verify')

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User, UserSchema } from './schemas/user.schema';
-import { RolesModule } from 'src/roles/roles.module';
 import { OtpsModule } from 'src/otps/otps.module';
+import { RolesModule } from 'src/roles/roles.module';
+import { User, UserSchema } from './schemas/user.schema';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
 
 @Module({
   imports: [RolesModule, OtpsModule, MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],

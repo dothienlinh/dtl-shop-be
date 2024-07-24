@@ -1,9 +1,9 @@
 import { Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FilesService } from './services/files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { FileUploadDto } from './dto/file-upload.dto';
 import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
+import { FileUploadDto } from './dto/file-upload.dto';
+import { FilesService } from './services/files.service';
 
 @ApiTags('Uploaded File')
 @Controller('files')

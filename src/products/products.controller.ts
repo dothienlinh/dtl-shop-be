@@ -1,13 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { User } from 'src/common/decorators/user.decorator';
-import { IUser } from 'src/common/interfaces/user.interface';
 import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { User } from 'src/common/decorators/user.decorator';
 import { ERole } from 'src/common/enums/role';
+import { IUser } from 'src/common/interfaces/user.interface';
+import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductsService } from './products.service';
 
 @ApiTags('products')
 @Controller('products')

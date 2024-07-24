@@ -1,8 +1,8 @@
-import { CreateOtpDto } from './dto/create-otp.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Otp } from './schemas/otp.schema';
-import { Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateOtpDto } from './dto/create-otp.dto';
+import { Otp } from './schemas/otp.schema';
 
 @Injectable()
 export class OtpsService {
