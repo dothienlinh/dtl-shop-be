@@ -12,6 +12,6 @@ RUN npm install --production
 
 COPY --chown=node:node . .
 
-EXPOSE 8000
+EXPOSE 8001
 
 CMD ["npm", "run", "start:prod"]

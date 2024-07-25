@@ -22,7 +22,7 @@ export class AuthController {
   @ResponseMessage('Login successful')
   @ApiBody({ type: AuthLoginDto })
   @ApiOperation({ summary: 'Log in' })
-  async handleLogin(@User() user, @Res({ passthrough: true }) response: Response) {
+  async handleLogin(@User() user: IUser, @Res({ passthrough: true }) response: Response) {
     return await this.authService.login(user, response);
   }
 

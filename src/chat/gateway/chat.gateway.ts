@@ -2,7 +2,7 @@ import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from
 import { Server } from 'socket.io';
 import { AuthService } from 'src/auth/auth.service';
 import { IUser } from 'src/common/interfaces/user.interface';
-import { ChatService } from './chat.service';
+import { ChatService } from '../chat.service';
 
 @WebSocketGateway({
   cors: {

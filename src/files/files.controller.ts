@@ -3,13 +3,10 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseMessage } from 'src/common/decorators/responseMessage.decorator';
 import { FileUploadDto } from './dto/file-upload.dto';
-import { FilesService } from './services/files.service';
 
 @ApiTags('Uploaded File')
 @Controller('files')
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
-
   @Post('upload')
   @ApiOperation({
     summary: 'Upload a file',

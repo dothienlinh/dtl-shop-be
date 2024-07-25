@@ -5,19 +5,19 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: dtl-shop-be
-    user: "${UID}:${GID}"
+    user: '${UID}:${GID}'
     restart: always
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - '8001:8000'
     networks:
       - dtl-shop
     volumes:
       - ./:/app/backend
       - /app/backend/node_modules
     expose:
-      - 8000
+      - 8001
 
 networks:
   dtl-shop:
